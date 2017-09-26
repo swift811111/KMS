@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\users ;
+use App\users , App\themes;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Hash ;
-use Validator, Input, Redirect, Auth; 
+use Validator, Input, Redirect, Auth, DB; 
 
 class UsersController extends Controller
 {
@@ -105,9 +105,9 @@ class UsersController extends Controller
 
         //驗證
         $rules = [
-            'username' => 'required' ,
-            'password' => 'required' ,
-            'email' => 'required|email'
+            'sign_username' => 'required' ,
+            'sign_password' => 'required' ,
+            'sign_email' => 'required'
         ] ;
         $validator = Validator::make($input, $rules);
 
@@ -125,7 +125,7 @@ class UsersController extends Controller
 
         }
         else {
-            // return Redirect::to('/')->withErrors($validator);
+            return 'error' ;
         }
 
     }
@@ -167,15 +167,88 @@ class UsersController extends Controller
         //return $input ;
     }
 
-    public function logincreate()
-    {
-        return View::make('site/logintest')
-            ->with('title', '登入');
-    }
-
+    //登出
     public function logout()
     {
         Auth::logout() ;
         return Redirect::to('/') ;
     }
+
+    //主題管理
+    public function theme_manage()
+    {
+        $themes_my = DB::table('themes')
+            ->where('foundername', '=', Auth::user()->username)
+            ->orderBy('id', 'DESC')
+            ->get();
+        $themes_collect = DB::table('themes')
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('site/theme_manage')
+            ->with('themes_my',$themes_my)
+            ->with('themes_collect',$themes_collect);
+        // return $themes;
+    }
+
+    
+    public function theme_add(Request $request)
+    {
+        $input = $request->all() ;
+        $theme_name = $request->theme_name ;
+        $theme_creater = $request->theme_creater ;
+        // return $input ;
+
+        //驗證-----------------
+        $rules = [
+            'theme_name' => 'required' ,
+            'theme_creater' => 'required'
+        ] ;
+        
+        $validator = Validator::make($input, $rules);
+        if ($validator->passes()) {
+
+            $theme_add = themes::firstOrCreate(array(
+                'themename' => $theme_name ,
+                'foundername' => $theme_creater ,
+                'unqid' => $request->theme_unqid,
+                'public' => 1       
+                ));
+
+                return Redirect::to('/theme_manage') ;
+            
+            // else {
+                
+            //     return View::make('site/index')
+            //         ->with('err','Username or Password is wrong!');
+                // return response()->json(['response' => 'This is get method']);
+        }
+
+        
+        else {
+            
+            return 'error';
+            
+        }
+         
+        //return $input ;
+    }
+
+    //分類管理
+    public function classification_manage()
+    {
+        $themes_my = DB::table('themes')
+            ->where('foundername', '=', Auth::user()->username)
+            ->orderBy('id', 'DESC')
+            ->get();
+        return view('site/classification_manage') 
+            ->with('themes_my',$themes_my);
+    }
+
+    //文章管理
+    public function article_manage()
+    {
+        return view('site/article_manage') ;
+    }
+    
 }

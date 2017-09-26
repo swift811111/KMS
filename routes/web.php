@@ -31,7 +31,19 @@ Route::post('/signup',[
 // ));
 
 Route::post('/login', 'UsersController@login');
+// Route::get('/logout', 'UsersController@logout');
 
-Route::get('/logout', 'UsersController@logout');
+// Route::get('/theme_manage', 'UsersController@theme_manage');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware'=>'auth'],function(){
+    Route::get('/theme_manage', 'UsersController@theme_manage');
+    Route::get('/logout', 'UsersController@logout');
+    Route::post('/themeAdd',[
+        'as' => 'theme.add',
+        'uses' => 'UsersController@theme_add'
+    ]);
+    Route::get('/classification_manage', 'UsersController@classification_manage');
+    Route::get('/article_manage', 'UsersController@article_manage');
+});

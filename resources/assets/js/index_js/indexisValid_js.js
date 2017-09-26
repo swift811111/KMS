@@ -177,7 +177,7 @@ $(document).ready(function() {
 
     //username 驗證
     function isValidUsername(emailAddress) {
-        var pattern = new RegExp(/^[a-zA-Z]\w*$/);
+        var pattern = new RegExp(/\d|[a-zA-Z]{6,20}/);
         return pattern.test(emailAddress);
     }
 

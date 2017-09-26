@@ -1,0 +1,290 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+* {
+    position: relative;
+    box-sizing: border-box;
+    font-family: 'DFKai-sb', 'Open Sans', sans-serif;
+    padding: 0;
+    margin: 0;
+    a {
+        text-decoration: none !important;
+    }
+}
+
+button {
+    cursor: pointer;
+}
+
+//-- define variable------------------------
+$text_color: #c5c5c5;
+//--Mixin-----------------------------------
+@mixin flex_align_center() {
+    display: flex;
+    align-items: center;
+}
+
+@mixin flex_justify_center() {
+    display: flex;
+    justify-content: center;
+}
+
+@mixin vertical_centering() {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@mixin size($h:auto,
+$w:auto) {
+    height: $h;
+    width: $w;
+}
+
+html {
+    min-height: 100% !important;
+    @include size(100%,
+    100%);
+}
+
+body {
+    min-height: 100% !important;
+    @include size(100%,
+    100%);
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    height: 55px;
+    border-bottom: 1px solid white;
+    left: 50px;
+    width: calc(100% - 100px);
+}
+
+.menu {
+    @include size(100%,
+    100%);
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+.menu_click {
+    @include flex_align_center();
+    cursor: pointer;
+}
+
+.user-btn {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    color: white;
+    cursor: pointer;
+    &:hover {
+        background: none;
+        color: white;
+    }
+    &:active {
+        border: none;
+    }
+}
+
+.btn-secondary:active,
+.btn-secondary.active,
+.show>.btn-secondary.dropdown-toggle {
+    color: white;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.Logout_btn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+//-- side bar section -----------------------
+.side_bar {
+    @include size(100%,
+    400px);
+    position: absolute;
+    left: -400px;
+    top: 0px;
+    background-color: white;
+    z-index: 2;
+}
+
+.cancel {
+    margin: 5% 0 0 0;
+    padding-left: 87%;
+    cursor: pointer;
+}
+
+.form {
+    @include size(auto,
+    100%);
+    padding: 20% 10% 0 10%;
+}
+
+.collapse_title {
+    @include size(45px,
+    100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #c5c5c5;
+    border-bottom: 1px solid #c5c5c5;
+    margin-bottom: 5%;
+    color: white;
+    background-color: #3E3C3C;
+    transition: color, background-color 0.5s;
+    &:hover {
+        background-color: #B1AEAE;
+        color: #3E3C3C;
+    }
+}
+
+.button_group {
+    @include vertical_centering();
+    margin-top: 10%;
+}
+
+.log_in,
+.sign_up {
+    @include size(auto,
+    80%);
+    margin-top: 10%;
+}
+
+.btn_log_in {
+    @include size(53px,
+    100%);
+    background-color: #4DBEA0;
+    color: white;
+    word-spacing: 10px;
+    letter-spacing: 3px;
+    &:hover {
+        cursor: pointer;
+        font-size: 18px;
+    }
+}
+
+.btn_sign_up {
+    @include size(53px,
+    100%);
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid $text_color;
+    color: $text_color;
+    word-spacing: 10px;
+    letter-spacing: 3px;
+    &:hover {
+        cursor: pointer;
+        font-size: 18px;
+    }
+}
+
+.manage_title {
+    left: 5%;
+    width: calc(100% - 10%);
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #c5c5c5;
+    margin-bottom: 15%;
+    color: #c5c5c5;
+    font-size: 20px;
+    cursor: pointer;
+    &:hover {
+        color: black;
+    }
+}
+
+//-- center content-----------------------------
+p {
+    font-size: 27px;
+    margin-top: -50px;
+}
+
+.bottom_line {
+    border-bottom: 1px solid white;
+    width: 20%;
+}
+
+//---All image----------------------------------
+img.menu_img {
+    @include size(40px,
+    45px);
+    display: block;
+}
+
+img.cancel_img {
+    @include size(20px,
+    20px);
+}
+
+//---Input--------------------------------------
+.form input[type=text],
+.form input[type=password] {
+    border: none;
+    border-bottom: 1px solid #E9E9E9;
+    height: 56px;
+    &::placeholder {
+        color: #c5c5c5;
+        font-size: 20px;
+    }
+    &:focus {
+        border-bottom-color: #009FCC;
+    }
+}
+
+//-- Modal---------------------------------------
+.sign_input_group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    input {
+        border: none;
+        border-bottom: 1px solid #E9E9E9;
+        width: 100%;
+        &::placeholder {
+            color: #c5c5c5;
+            font-size: 20px;
+        }
+        &:focus {
+            outline: none;
+            border-bottom-color: #009FCC;
+        }
+    }
+    div {
+        margin-bottom: 8%;
+    }
+    label {
+        font-weight: bold;
+    }
+    form {
+        width: 90%;
+    }
+    .text-muted {
+        display: none;
+    }
+}
+
+//-- RWD ----------------------------------------
+@media (min-width: 640px) {
+    p {
+        font-size: 35px;
+    }
+}
+
+@media (min-width: 1024px) {
+    p {
+        font-size: 55px;
+    }
+}
+
+@media (min-width: 1280px) {
+    body {
+        background-size: 100% auto;
+    }
+}
