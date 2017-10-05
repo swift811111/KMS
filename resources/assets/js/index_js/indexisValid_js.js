@@ -176,9 +176,10 @@ $(document).ready(function() {
     //正規表達式驗證----------------------------------------------------
 
     //username 驗證
-    function isValidUsername(emailAddress) {
-        var pattern = new RegExp(/\d|[a-zA-Z]{6,20}/);
-        return pattern.test(emailAddress);
+    function isValidUsername(username) {
+        // var pattern = new RegExp(/\d|[a-zA-Z]{6,20}/);
+        var pattern = new RegExp(/^(?=.*\d)(?=.*[a-zA-Z])(?!.*[\W]).{6,20}$/);
+        return pattern.test(username);
     }
 
     //email 驗證

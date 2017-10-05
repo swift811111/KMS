@@ -7,6 +7,18 @@ $(document).ready(function() {
         $(".side_bar").height(
             $(window).height()
         );
+
+        // $(".mask").css("display", "block");
+        $(".mask").fadeIn(300);
+    });
+
+    $(".mask").click(function() {
+        $(".mask").fadeOut(300);
+        if ($('.side_bar').css('left') > '-400px') {
+            $(".side_bar").animate({
+                left: '-400px',
+            });
+        }
     });
 
     // click content to receive side bar
@@ -23,6 +35,7 @@ $(document).ready(function() {
         $(".side_bar").animate({
             left: '-400px',
         });
+        $(".mask").fadeOut(300);
     });
 
     //content size
@@ -53,4 +66,25 @@ $(document).ready(function() {
         // })
     });
 
+
+
+});
+
+//管理文章的ICON轉動
+var manageBtnClick = new Vue({
+    el: '.side_bar',
+    data: {
+        show: true,
+    },
+    methods: {
+        imgTransform: function() {
+            if (this.show == true) {
+                $("img.chevron-sign-to-right").css("transform", "rotate(-1deg)");
+                this.show = false;
+            } else {
+                $("img.chevron-sign-to-right").css("transform", "rotate(90deg)");
+                this.show = true;
+            }
+        }
+    }
 });

@@ -3,6 +3,8 @@ $(document).ready(function() {
     var exists = [];
 
     $('.classification_container').css("height", $('.content').height() - 1);
+    $('.classifications_content').css("height", $('.classifications').height() - $('.classifications_title').height());
+    $('.theme_menu').css("height", $('.classifications').height());
 
 
     // $('.themename').click(function() {

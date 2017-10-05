@@ -3,6 +3,12 @@
     width: $w;
 }
 
+@mixin allCenter() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 * {
     position: relative;
 }
@@ -11,6 +17,7 @@ body {
     background-image: url('../../image/bg/bg5.jpg');
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    overflow: auto;
 }
 
 header {
@@ -21,6 +28,14 @@ header {
     height: auto;
     left: 50px;
     width: calc(100% - 100px);
+    overflow: auto;
+    .themeTitle {
+        @include size(3em,
+        100%);
+        background-color: #41A99D;
+        @include allCenter();
+        color: #E2F2F0;
+    }
 }
 
 .tab-pane {
@@ -65,6 +80,12 @@ header {
         box-shadow: 0 0 4px 0 rgba(0, 0, 0, .1), 0 2px 8px 0 rgba(0, 0, 0, .2);
         background-color: #1F1E1E;
     }
+}
+
+img.addTheme_img {
+    @include size(2.3em,
+    2.3em);
+    display: block;
 }
 
 // #ThemeTable_paginate {

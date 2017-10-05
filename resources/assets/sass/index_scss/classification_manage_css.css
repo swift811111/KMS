@@ -7,6 +7,14 @@ body {
   height: auto;
   left: 50px;
   width: calc(100% - 100px); }
+  .content .themeTitle {
+    height: 3em;
+    width: 100%;
+    background-color: #41A99D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E2F2F0; }
 
 .classification_container {
   height: 100%;
@@ -14,7 +22,9 @@ body {
   .classification_container .theme_menu {
     border-right: 1px solid #3E3C3C;
     width: 20%;
-    background-color: white; }
+    height: 30em;
+    background-color: white;
+    overflow: auto; }
     .classification_container .theme_menu .theme_menu_title {
       display: flex;
       justify-content: center;
@@ -22,7 +32,6 @@ body {
       color: #BABABA;
       background-color: #3E3C3C;
       height: 2.5em;
-      margin-bottom: 0.3em;
       overflow: auto; }
     .classification_container .theme_menu .themename {
       display: flex;
@@ -30,17 +39,16 @@ body {
       align-items: center;
       cursor: pointer;
       height: 2.5em;
-      border-radius: 10px;
-      margin-bottom: 0.3em; }
-      .classification_container .theme_menu .themename:nth-child(odd) {
-        background: #EAEAEA; }
-      .classification_container .theme_menu .themename:nth-child(even) {
-        background: #F7F7F7; }
+      border-bottom: 1px solid #C4C4C4;
+      background-color: #F7F4F4; }
+      .classification_container .theme_menu .themename:hover {
+        background-color: white; }
+      .classification_container .theme_menu .themename .themePaggingNamme {
+        margin-right: 1em; }
   .classification_container .classifications {
     border-left: 1px solid #3E3C3C;
     width: 100%;
-    background-color: #F7F7F7;
-    overflow: auto; }
+    background-color: #F7F7F7; }
     .classification_container .classifications .classifications_title {
       height: 7%;
       display: flex;
@@ -50,16 +58,52 @@ body {
         justify-content: center;
         align-items: center;
         height: 100%;
-        min-width: 8em;
+        width: 6.38em;
         border-top: 1px solid;
-        border-right: 1px solid;
-        border-top-right-radius: 0.9em; }
+        border-right: 1px solid; }
     .classification_container .classifications .classifications_content {
-      height: 93%; }
+      height: 20em;
+      overflow: auto; }
       .classification_container .classifications .classifications_content .classifications_content_page {
         height: 100%;
         width: 100%;
         background-color: #FFFCD7; }
+        .classification_container .classifications .classifications_content .classifications_content_page .level {
+          min-height: 5em;
+          height: auto;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center; }
+          .classification_container .classifications .classifications_content .classifications_content_page .level:nth-child(odd) {
+            background: #EAEAEA; }
+          .classification_container .classifications .classifications_content .classifications_content_page .level:nth-child(even) {
+            background: #F7F7F7; }
+          .classification_container .classifications .classifications_content .classifications_content_page .level .preLevel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 5em;
+            height: 100%;
+            width: 7em;
+            font-weight: bold; }
+          .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 5em;
+            padding: 0.5em 0 0 0.5em;
+            height: 100%;
+            width: 100%;
+            border-left: 1px solid; }
+            .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .childLevel,
+            .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .childLevel-img {
+              height: 3.4em;
+              width: 7em;
+              margin-right: 0.5em;
+              margin-bottom: 0.5em;
+              background-color: #56DA9C; }
+            .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .childLevel-img {
+              background-color: rgba(0, 0, 0, 0); }
 
 .expand-transition {
   transition: all .3s ease;
@@ -73,5 +117,14 @@ body {
   height: 0;
   padding: 0 10px;
   opacity: 0; }
+
+img.themePaggingAdd {
+  display: block;
+  height: 1.1em;
+  width: 1.1em; }
+
+img.levelAdd {
+  height: 2.1em;
+  width: 2.1em; }
 
 /*# sourceMappingURL=classification_manage_css.css.map */

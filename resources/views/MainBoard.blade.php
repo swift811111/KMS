@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" >
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" >
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css">
+    <script src="https://unpkg.com/vue"></script>
   </head>
   
   <body>
@@ -69,6 +70,8 @@
             <div class="menu_click ">
                 <!-- <span>選單</span> -->
                 <img class="menu_img" src="../resources/assets/image/icon/menu.png" alt="">
+                <div class="blank" style="width:1em;"></div>
+                <div class="menuName">選單</div>
             </div>
             <!-- <div class="Logout_btn ">
                 @if(Auth::check())
@@ -76,25 +79,20 @@
                     {{ Html::linkRoute('logout', '| LOG OUT') }}
                 @endif
             </div> -->
+            <div class="kmsTitle" onclick="window.location='{{ url("/") }}'">
+                    KMS
+            </div>
             <div class="btn-group row">
-                <div>
-                    <nav class="navbar navbar-light" style="background-color:rgba(255,255,255,0);">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </nav>
-                </div>
                 <div class="center">
-                @if(Auth::check())
-                    <button type="button" class="btn btn-secondary dropdown-toggle user-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ Auth::user()->username }}
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="/">個人資料管理</a>
-                        <a class="dropdown-item" href="logout">登出</a>
-                    </div>
-                @endif
+                    @if(Auth::check())
+                        <button type="button" class="btn btn-secondary dropdown-toggle user-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ Auth::user()->username }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="/">個人資料管理</a>
+                            <a class="dropdown-item" href="logout">登出</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -103,7 +101,10 @@
     <!-- side bar -->
     <div class="side_bar" style="left:{{ count($errors)>0|isset($err) ? '0px' : '-400px' }}">
         <div class="cancel">
+           <div class="close-btn"><b>關閉</b></div>
+           <div class="close-img">
             <img class="cancel_img" src="../resources/assets/image/icon/cancel.png" >
+           </div>
         </div>
         @if(Auth::check())
             <!-- 已登入的管理頁面 -->
@@ -118,20 +119,24 @@
                 </div>
 
                 <div class="item">
-                    <a data-toggle="collapse" data-parent="#exampleAccordion" href="#exampleAccordion1" aria-expanded="false" aria-controls="exampleAccordion1">                        
-                        <div class="collapse_title">
-                            管理選單
+                    <a data-toggle="collapse" data-parent="#exampleAccordion" href="#manageOption" aria-expanded="false" aria-controls="manageOption">                        
+                        <div class="collapse_title"  @click="imgTransform" >
+                            <div class="manage_father center">管理選單</div>
+                            <div class="center"><img src="../resources/assets/image/icon/chevron-sign-to-right.png" class="chevron-sign-to-right"></div>
                         </div>
                     </a>
-                    <div id="exampleAccordion1" class="collapse show" role="tabpanel">
-                        <div class="theme_manage manage_title mb-3" onclick="window.location='{{ url("theme_manage") }}'">
-                            主題管理
+                    <div id="manageOption" class="collapse show" role="tabpanel">
+                        <div class="theme_manage manage_title" onclick="window.location='{{ url("theme_manage") }}'">
+                            <div class="center"><img src="../resources/assets/image/icon/chevron.png" class="chevron"></div>
+                            <div class="manage_child center">主題管理</div>
                         </div>
-                        <div class="classification_manage manage_title mb-3" onclick="window.location='{{ url("classification_manage") }}'">
-                            分類管理
+                        <div class="classification_manage manage_title" onclick="window.location='{{ url("classification_manage") }}'">
+                            <div class="center"><img src="../resources/assets/image/icon/chevron.png" class="chevron"></div>
+                            <div class="manage_child center">分類管理</div>
                         </div>
-                        <div class="article_manage manage_title mb-3" onclick="window.location='{{ url("article_manage") }}'">
-                            文章管理
+                        <div class="article_manage manage_title" onclick="window.location='{{ url("article_manage") }}'">
+                            <div class="center"><img src="../resources/assets/image/icon/chevron.png" class="chevron"></div>
+                            <div class="manage_child center">文章管理</div>
                         </div>
                     </div>
                 </div>
@@ -184,8 +189,9 @@
     </div>
     
     <!-- text content -->
+    <div class="mask"></div>
     @yield('BodyContent')
-
+                        
     <!-- footer -->
     <footer></footer>
     
@@ -203,6 +209,7 @@
     <script type="text/javascript" src="../resources/assets/js/index_js/mainboard_js.js"></script>
     <script type="text/javascript" src="../resources/assets/js/index_js/indexisValid_js.js"></script>
     @yield('BodyScriptCss')
+    
   </body>
 
 </html>

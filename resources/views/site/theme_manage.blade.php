@@ -38,7 +38,7 @@
 <!-- text content -->
 <div class="content">
 
-    <nav class="nav nav-tabs" id="myTab" style="width:100%;" role="tablist">
+    <!-- <nav class="nav nav-tabs" id="myTab" style="width:100%;" role="tablist">
         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-expanded="true">我的主題</a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile">收藏的主題</a>
     </nav>
@@ -52,9 +52,10 @@
             ?>
             <div class="NewTheme">
                 <div class="NewAdd">
-                    <img class="menu_img NewThemeIcon" src="../resources/assets/image/icon/plus.png" alt="">
+                    <img class="addTheme_img NewThemeIcon" src="../resources/assets/image/icon/plus.png" alt="">
                     <!-- <span class="NewTheme_click">新增主題</span> -->
                     <button type="button" class="btn btn_theme_create" data-toggle="modal" data-target="#ThemeCreate">新增主題</button>
+                    <button type="button" class="btn btn_theme_create" data-toggle="modal" data-target="#ThemeCreate">合併主題</button>
                 </div>
                 <!-- <div class="ThemeSearch">  
                     <nav class="navbar navbar-light bg-light">

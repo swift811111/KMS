@@ -241,10 +241,18 @@ class UsersController extends Controller
             ->where('foundername', '=', Auth::user()->username)
             ->orderBy('id', 'DESC')
             ->get();
-        return view('site/classification_manage') 
+        return view('site/classification_manage')
             ->with('themes_my',$themes_my);
     }
-
+    public function data()
+    {
+        $themes_my = DB::table('themes')
+            ->where('foundername', '=', Auth::user()->username)
+            ->orderBy('id', 'DESC')
+            ->get();
+        // return response()->json(['themes_my' => $themes_my]) ;
+        return response()->json($themes_my);
+    }
     //文章管理
     public function article_manage()
     {

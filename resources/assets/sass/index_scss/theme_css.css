@@ -4,7 +4,8 @@
 body {
   background-image: url("../../image/bg/bg5.jpg");
   background-size: 100% 100%;
-  background-repeat: no-repeat; }
+  background-repeat: no-repeat;
+  overflow: auto; }
 
 header {
   border: none; }
@@ -12,7 +13,16 @@ header {
 .content {
   height: auto;
   left: 50px;
-  width: calc(100% - 100px); }
+  width: calc(100% - 100px);
+  overflow: auto; }
+  .content .themeTitle {
+    height: 3em;
+    width: 100%;
+    background-color: #41A99D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E2F2F0; }
 
 .tab-pane {
   background-color: #F7F7F7;
@@ -48,5 +58,10 @@ header {
   .btn_theme_create:hover {
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.2);
     background-color: #1F1E1E; }
+
+img.addTheme_img {
+  height: 2.3em;
+  width: 2.3em;
+  display: block; }
 
 /*# sourceMappingURL=theme_css.css.map */

@@ -1,6 +1,6 @@
 html {
   background-color: rgba(38, 38, 38, 0.5);
-  z-index: 3; }
+  z-index: 2; }
 
 body {
   background-image: url("../../image/bg/bg5.jpg");
@@ -15,6 +15,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white; }
+  color: white;
+  overflow: auto; }
 
 /*# sourceMappingURL=index_css.css.map */
