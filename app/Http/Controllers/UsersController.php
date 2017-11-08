@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\users , App\themes;
+use App\users , App\themes , App\classification ,App\childclassification;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Hash ;
 use Validator, Input, Redirect, Auth, DB; 
@@ -178,7 +178,7 @@ class UsersController extends Controller
     public function theme_manage()
     {
         $themes_my = DB::table('themes')
-            ->where('foundername', '=', Auth::user()->username)
+            ->where('foundername', Auth::user()->username)
             ->orderBy('id', 'DESC')
             ->get();
         $themes_collect = DB::table('themes')
@@ -191,7 +191,8 @@ class UsersController extends Controller
         // return $themes;
     }
 
-    
+    // 新增資料
+    //主題
     public function theme_add(Request $request)
     {
         $input = $request->all() ;
@@ -234,29 +235,86 @@ class UsersController extends Controller
         //return $input ;
     }
 
+    //父分類
+    public function classification_add(Request $request)
+    {
+        $input = $request->all() ;
+
+        $classification_add = classification::firstOrCreate(array(
+            'fathername' => $request->fathername ,
+            'foundername' => $request->foundername ,
+            'unqid' => $request->unqid,
+            'name' => $request->name,     
+            ));
+
+        return $input ;
+    }
+
+    //子分類
+    public function Child_Classification_add(Request $request)
+    {
+        $input = $request->all() ;
+
+        $classification_add = childclassification::firstOrCreate(array(
+            'clssificationfathername' => $request->fathername ,
+            'foundername' => $request->foundername ,
+            'unqid' => $request->unqid,
+            'name' => $request->name,     
+            ));
+
+        return $input ;
+    }
+
     //分類管理
     public function classification_manage()
     {
-        $themes_my = DB::table('themes')
-            ->where('foundername', '=', Auth::user()->username)
-            ->orderBy('id', 'DESC')
-            ->get();
         return view('site/classification_manage')
-            ->with('themes_my',$themes_my);
-    }
-    public function data()
-    {
-        $themes_my = DB::table('themes')
-            ->where('foundername', '=', Auth::user()->username)
-            ->orderBy('id', 'DESC')
-            ->get();
-        // return response()->json(['themes_my' => $themes_my]) ;
-        return response()->json($themes_my);
+            ->with('themes_my',null);
     }
     //文章管理
     public function article_manage()
     {
         return view('site/article_manage') ;
     }
+
+    //data
+    public function theme_data()
+    {
+        $themes_my = DB::table('themes')
+            ->where('foundername', Auth::user()->username)
+            ->orderBy('id', 'DESC')
+            ->get();
+        //return response()->json(['themes_my' => $themes_my]) ;
+        return response()->json($themes_my);
+    }
+
+    public function classification_data( $fathername )
+    {
+        $classification = DB::table('classification')
+            ->where('foundername', Auth::user()->username)
+            ->where('fathername', $fathername)
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $unqidcollect = [] ;
+        foreach ($classification as $cla){
+            $childclassification = DB::table('childclassifications')
+                ->where('foundername', Auth::user()->username)
+                ->where('clssificationfathername', $cla->unqid)
+                ->orderBy('id', 'DESC')
+                ->get();
+            array_push($unqidcollect,$childclassification) ;
+            
+        }
+        
+        $merge = [] ; //合兩個陣列
+        array_push($merge,$classification) ;
+        array_push($merge,$unqidcollect) ;
+        // $merge = json_encode(array_merge(json_decode($classification, true),$unqidcollect)) ;
+        //return response()->json(['themes_my' => $themes_my]) ;
+        return $merge;
+        // return response()->json($classification[0]->name);
+    }
+
     
 }

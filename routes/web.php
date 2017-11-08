@@ -14,13 +14,6 @@ Auth::routes();
 Route::get('/', function () {
     return view('site/index');
 });
-// Route::get('/users', 'UsersController@index');
-// Route::get('/users/signup', 'UsersController@create');
-// Route::post('/post', 'UsersController@store');
-
-// Route::get('/users/login', 'UsersController@logincreate');
-
-// Route::post('/signup', 'UsersController@signup');
 Route::post('/signup',[
     'as' => 'user.signup',
     'uses' => 'UsersController@signup'
@@ -29,21 +22,35 @@ Route::post('/signup',[
 //             'as' => 'user.signup',
 //             'uses' => 'UsersController@signup'
 // ));
-
 Route::post('/login', 'UsersController@login');
-// Route::get('/logout', 'UsersController@logout');
-
-// Route::get('/theme_manage', 'UsersController@theme_manage');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware'=>'auth'],function(){
+
     Route::get('/theme_manage', 'UsersController@theme_manage');
     Route::get('/logout', 'UsersController@logout');
-    Route::post('/themeAdd',[
+    
+    Route::get('/classification_manage', 'UsersController@classification_manage');
+    Route::get('/article_manage', 'UsersController@article_manage');
+
+    //post data
+    Route::post('/post/themeAdd',[  //新增主題
         'as' => 'theme.add',
         'uses' => 'UsersController@theme_add'
     ]);
-    Route::get('/classification_manage', 'UsersController@classification_manage');
-    Route::get('/article_manage', 'UsersController@article_manage');
+    Route::post('/post/classificationAdd',[  //新增父分類
+        'as' => 'classification.add',
+        'uses' => 'UsersController@classification_add'
+    ]);
+    Route::post('/post/Child_Classification_add',[  //在父分類底下新增子分類
+        'as' => 'Child_Classification.add',
+        'uses' => 'UsersController@Child_Classification_add'
+    ]);
+
+    //get data
+    Route::get('/data/theme_data', 'UsersController@theme_data');  //拿到主題資料
+    Route::get('/data/classification_data/{fathername}', 'UsersController@classification_data');  //拿到父分類資料
+    Route::get('/data/childclassification_data/{fathername}', 'UsersController@childclassification_data');  //拿到子分類資料
+    
 });

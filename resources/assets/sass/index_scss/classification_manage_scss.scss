@@ -15,6 +15,10 @@ body {
     background-repeat: no-repeat;
 }
 
+.cursor {
+    cursor: pointer;
+}
+
 .content {
     height: auto;
     left: 50px;
@@ -52,8 +56,7 @@ body {
             background-color: #F7F4F4;
             &:hover {
                 background-color: white;
-            }
-            // &:nth-child(odd) {
+            } // &:nth-child(odd) {
             //     background: #EAEAEA;
             // }
             // &:nth-child(even) {
@@ -77,8 +80,7 @@ body {
                 height: 100%;
                 width: 6.38em;
                 border-top: 1px solid;
-                border-right: 1px solid;
-                // border-top-right-radius: 0.9em;
+                border-right: 1px solid; // border-top-right-radius: 0.9em;
             }
         }
         .classifications_content {
@@ -88,6 +90,16 @@ body {
                 height: 100%;
                 width: 100%;
                 background-color: #FFFCD7;
+                .classification_btn_group {
+                    .classification_btn {
+                        @include size(2em,
+                        6em);
+                        background-color: #3E3C3C;
+                        color: #BABABA;
+                        border: 2px solid #BABABA;
+                        border-radius: 10px;
+                    }
+                }
                 .level {
                     min-height: 5em;
                     @include size(auto,
@@ -116,14 +128,22 @@ body {
                         border-left: 1px solid;
                         .childLevel,
                         .childLevel-img {
-                            @include size(3.4em,
-                            7em);
-                            margin-right: 0.5em;
-                            margin-bottom: 0.5em;
-                            background-color: #56DA9C;
+                            border-radius: 4.5px;
+                            @include size(1.8em,
+                            6em);
+                            margin-right: 0.1em;
+                            background-color: rgb(139, 196, 188);
                         }
                         .childLevel-img {
                             background-color: rgba(0, 0, 0, 0);
+                            display: flex;
+                            align-items: center;
+                            margin-left: 0.6em;
+                        }
+                        .classification_btn {
+                            @include size(1.8em,
+                            1.8em);
+                            cursor: pointer;
                         }
                     }
                 }
@@ -157,4 +177,17 @@ img.themePaggingAdd {
 img.levelAdd {
     @include size(2.1em,
     2.1em);
+}
+
+img.themes_bookmark_cancel {
+    @include size(0.8em,
+    0.8em);
+    margin-left: 1em;
+    cursor: pointer;
+}
+
+img.child_classification_delete {
+    @include size(0.8em,
+    0.8em);
+    cursor: pointer;
 }
