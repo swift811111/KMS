@@ -47,6 +47,18 @@ Route::group(['middleware'=>'auth'],function(){
         'as' => 'Child_Classification.add',
         'uses' => 'UsersController@Child_Classification_add'
     ]);
+    Route::post('/post/delete_child_cls',[  //在父分類底下刪除子分類
+        'as' => 'delete_child_cls.delete',
+        'uses' => 'UsersController@delete_child_cls'
+    ]);
+    Route::post('/post/delete_theme',[  //刪除主題
+        'as' => 'delete_theme.delete',
+        'uses' => 'UsersController@delete_theme'
+    ]);
+    Route::post('/post/delete_father_cls',[  //刪除主題
+        'as' => 'delete_father_cls.delete',
+        'uses' => 'UsersController@delete_father_cls'
+    ]);
 
     //get data
     Route::get('/data/theme_data', 'UsersController@theme_data');  //拿到主題資料

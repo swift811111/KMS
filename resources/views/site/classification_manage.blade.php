@@ -24,7 +24,6 @@
                             <input type="text" class="form-control" name="classification_name" ref="classification_name" id="classification_name" placeholder="" required >
                             <small class="text-muted"> 請輸入分類名稱 </small>    
                         </div>
-                        <input type="hidden" name='classification_unqid' ref="classification_unqid" value="<?php echo uniqid() ?>">
                         <input type="hidden" name='classification_foundername' ref="classification_foundername" value="{{ Auth::user()->username }}">
                     <!-- </form>        -->
                 </div>
@@ -45,7 +44,7 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabelclsadd">新增分類</h4>
+                    <h4 class="modal-title" id="myModalLabelclsadd">新增子分類</h4>
                 </div>
                 <div class="modal-body ">
                     <!-- sign up form -->
@@ -56,7 +55,6 @@
                             <input type="text" class="form-control" name="Child_Classification_add_name" ref="Child_Classification_add_name" id="Child_Classification_add_name" placeholder="" required >
                             <small class="text-muted"> 請輸入子分類名稱 </small>    
                         </div>
-                        <input type="hidden" name='Child_Classification_add_unqid' ref="Child_Classification_add_unqid" value="<?php echo uniqid() ?>">
                         <input type="hidden" name='Child_Classification_add_foundername' ref="Child_Classification_add_foundername" value="{{ Auth::user()->username }}">
                     <!-- </form>        -->
                 </div>
@@ -106,8 +104,8 @@
             
             <!-- 顯示以點選的主題頁籤 -->
             <div class="classifications_title" id="classifications_title">
-                <div v-for="item in themes_bookmark" class="ThemePageTitle" >
-                    <div class="cursor" @click="bookmark_click(item.unqid)">
+                <div v-for="(item,index) in themes_bookmark"  :id="item.unqid" :class="[(fathername == item.unqid) ? bookmark_color : null]" class="ThemePageTitle cursor" >
+                    <div @click="bookmark_click(item.unqid)">
                         @{{ item.name }}
                     </div>
                     <img class="themes_bookmark_cancel" @click="remove_from_bookmark(item)" src="../resources/assets/image/icon/cancel.png" alt="">
@@ -121,20 +119,24 @@
                     <!-- 新增父分類按鈕 -->
                     <div class="classification_btn_group" v-show="show">
                         <button class="classification_btn" data-toggle="modal" data-target="#ClassificationCreate">新增分類</button>
+                        <button class="classification_btn" @click="delete_father_cls">刪除分類</button>
                     </div>
 
                     <!-- 列出父分類 -->
                     <div class="level" v-for="(item,index) in classification_names">
+                        <div style="width:5%;" class="father_cls_checkedbox center">
+                                <input type="checkbox" v-model="father_checkedunqid" :value="item.unqid">
+                        </div>
                         <div class="preLevel">@{{ item.name }}</div>
 
                         <!-- 子分類及新增子分類功能 -->
                         <div class="childLevelContainer">
                             <div class="childLevel center" v-for=" clsitem in childclassifications[index]">
-                                <div style="width:100%;" class="center">
+                                <div style="width:100%;overflow:hidden;" class="center" :title="clsitem.name">
                                     @{{ clsitem.name }}
                                 </div>
                                 <div style="width:23%;" class="center">
-                                    <img class="child_classification_delete"  src="../resources/assets/image/icon/forbidden-sign.png">
+                                    <img class="child_classification_delete" @click="delete_child_cls(clsitem.unqid)"  src="../resources/assets/image/icon/forbidden-sign.png">
                                 </div>
                             </div>
                             <div class="childLevel-img">
@@ -142,6 +144,7 @@
                                 <img class="classification_btn" src="../resources/assets/image/icon/plus.png" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Uunqid(item.unqid)">
                             </div>
                         </div>
+
                     </div>
                     
                 </div>

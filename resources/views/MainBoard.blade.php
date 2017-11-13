@@ -54,7 +54,6 @@
                             <input type="email" class="form-control" name="sign_email" id="sign_email" placeholder="your e-mail" required >
                             <small class="text-muted"> 請輸入正確的email </small>    
                         </div>
-                        <input type="hidden" name='sign_unqid' value="<?php echo uniqid() ?>">
                     </form>       
                 </div>
                 <div class="modal-footer">

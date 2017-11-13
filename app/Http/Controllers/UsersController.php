@@ -117,7 +117,7 @@ class UsersController extends Controller
             'username' => $username ,
             'password' => \Hash::make($password) ,
             'email' => $email ,
-            'unqid' => $request->sign_unqid       
+            'unqid' =>  uniqid(true,true),       
             ));
 
             Auth::attempt(array('username' => $username ,'password' => $password)) ;
@@ -181,14 +181,66 @@ class UsersController extends Controller
             ->where('foundername', Auth::user()->username)
             ->orderBy('id', 'DESC')
             ->get();
-        $themes_collect = DB::table('themes')
-            ->orderBy('id', 'DESC')
-            ->get();
 
         return view('site/theme_manage')
-            ->with('themes_my',$themes_my)
-            ->with('themes_collect',$themes_collect);
+            ->with('themes_my',$themes_my);
         // return $themes;
+    }
+
+    //刪除主題
+    public function delete_theme(Request $request)
+    {
+        
+        $unqids = $request->themes_data ; //get what theme need delete
+        $delete_array = [] ;   //儲存所有等待刪除的子分類
+
+        //找出主題所擁有的父分類quid 用來刪除父分類底下的所有子分類
+        foreach ($unqids as $unqid) {
+
+            $delete_select_classification = DB::table('themes')
+
+            ->join('classification', function($join) use($unqid)
+            {
+                $join->on('themes.unqid', '=', 'classification.fathername')
+                    ->where('classification.fathername', '=', $unqid);
+            })
+            ->select('classification.unqid')
+            ->get();
+
+            foreach ($delete_select_classification as $item){
+                array_push($delete_array,$item) ;
+            }
+            
+        }
+
+        //刪除主題與其底下的所有父分類 子分類
+        foreach ($unqids as $unqid) { //主題
+            $delete_theme = DB::table('themes')
+            ->where('foundername', Auth::user()->username)
+            ->where('unqid', $unqid)
+            ->delete();
+
+            $delete_clsfather = DB::table('classification') //父分類
+            ->where('foundername', Auth::user()->username)
+            ->where('fathername', $unqid)
+            ->delete();
+
+            foreach ($delete_array as $item) {  //子分類
+                $delete_clschild = DB::table('childclassifications')
+                ->where('foundername', Auth::user()->username)
+                ->where('clssificationfathername', $item->unqid)
+                ->delete();
+            }
+        }
+
+        $themes_my = DB::table('themes')
+            ->where('foundername', Auth::user()->username)
+            ->orderBy('id', 'DESC')
+            ->get();
+        
+        // return view('site/theme_manage')
+        //     ->with('themes_my',$themes_my);
+        return Redirect::to('/theme_manage')->with('themes_my',$themes_my);
     }
 
     // 新增資料
@@ -212,7 +264,7 @@ class UsersController extends Controller
             $theme_add = themes::firstOrCreate(array(
                 'themename' => $theme_name ,
                 'foundername' => $theme_creater ,
-                'unqid' => $request->theme_unqid,
+                'unqid' => uniqid(true,true),
                 'public' => 1       
                 ));
 
@@ -243,11 +295,30 @@ class UsersController extends Controller
         $classification_add = classification::firstOrCreate(array(
             'fathername' => $request->fathername ,
             'foundername' => $request->foundername ,
-            'unqid' => $request->unqid,
+            'unqid' => uniqid(true,true),
             'name' => $request->name,     
             ));
 
         return $input ;
+    }
+    //移除父分類
+    public function delete_father_cls(Request $request)
+    {
+        $input = $request->unqid ;
+
+        foreach( $input as $item){
+            $delete_father_cls = DB::table('classification')
+            ->where('foundername', Auth::user()->username)
+            ->where('unqid', $item)
+            ->delete();
+
+            $delete_child_cls = DB::table('childclassifications')
+            ->where('foundername', Auth::user()->username)
+            ->where('clssificationfathername', $item)
+            ->delete();
+        }
+        // return $input;
+        
     }
 
     //子分類
@@ -258,20 +329,30 @@ class UsersController extends Controller
         $classification_add = childclassification::firstOrCreate(array(
             'clssificationfathername' => $request->fathername ,
             'foundername' => $request->foundername ,
-            'unqid' => $request->unqid,
+            'unqid' => uniqid(true,true),
             'name' => $request->name,     
             ));
 
         return $input ;
     }
+    //移除子分類
+    public function delete_child_cls(Request $request)
+    {
+        $input = $request->all() ;
 
-    //分類管理
+        $delete_child_cls = DB::table('childclassifications')
+            ->where('foundername', Auth::user()->username)
+            ->where('unqid', $input)
+            ->delete();
+    }
+
+    //顯示分類管理頁面
     public function classification_manage()
     {
         return view('site/classification_manage')
             ->with('themes_my',null);
     }
-    //文章管理
+    //顯示文章管理頁面
     public function article_manage()
     {
         return view('site/article_manage') ;

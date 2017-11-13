@@ -6,9 +6,11 @@ $(document).ready(function() {
 
 });
 
-var classificationPagging1 = new Vue({
+var classificationPagging = new Vue({
     el: '.content',
     data: {
+        red: "red",
+        bookmark_color: "bookmark_color",
 
         themes_my: [], //主題列表
         themes_bookmark: [], //檢視是否存在重複的主題頁籤
@@ -20,6 +22,7 @@ var classificationPagging1 = new Vue({
         classification_name: "",
         foundername: "",
         unqid: "",
+        father_checkedunqid: [],
 
         //子分類
         childclassifications: [],
@@ -52,21 +55,28 @@ var classificationPagging1 = new Vue({
 
             let self = this;
 
-            if (this.themes_bookmark.indexOf(name) >= 0) {
-                alert('已經存在該項目');
+            //  find name index
+            var name_index = $.map(this.themes_bookmark, function(item, index) {
+                return item.name
+            }).indexOf(name);
+
+            if (name_index >= 0) {
+                // alert('已經存在該項目');
                 this.fathername = unqid;
                 this.get_classification_data()
             } else {
                 this.themes_bookmark.push({ name: name, unqid: unqid });
+
                 this.fathername = unqid;
                 //顯示分類
+
                 this.get_classification_data()
+
 
                 if (this.themes_bookmark.length > 0) this.show = true;
                 else this.show = false;
             }
         },
-
         //更新頁籤裡面的分類資料
         bookmark_click: function(unqid) {
             this.fathername = unqid;
@@ -100,13 +110,11 @@ var classificationPagging1 = new Vue({
 
             this.classification_name = this.$refs.classification_name.value;
             this.foundername = this.$refs.classification_foundername.value;
-            this.unqid = this.$refs.classification_unqid.value;
 
             axios.post('post/classificationAdd', {
                     fathername: self.fathername,
                     name: self.classification_name,
                     foundername: self.foundername,
-                    unqid: self.unqid,
                 })
                 .then(function(response) {
                     // axios.get('data/classification_data/' + self.fathername)
@@ -123,6 +131,26 @@ var classificationPagging1 = new Vue({
                     console.log(error);
                 });
         },
+        //刪除父分類
+        delete_father_cls: function() {
+            console.log(this.father_checkedunqid);
+            let self = this;
+
+            var checked_box_length = $('input[type="checkbox"]:checked').length;
+            var sure = confirm("刪這些分類將會連擁有此分類的標籤刪除，確認刪除 " + checked_box_length + " 筆資料?");
+
+            if (sure == true) {
+                axios.post('post/delete_father_cls', {
+                        unqid: self.father_checkedunqid,
+                    })
+                    .then(function(response) {
+                        self.get_classification_data()
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
+        },
 
         //新增子分類
         Input_Father_Classification_Uunqid: function(unqid) {
@@ -134,13 +162,11 @@ var classificationPagging1 = new Vue({
 
             this.Child_Classification_add_name = this.$refs.Child_Classification_add_name.value;
             this.Child_Classification_add_foundername = this.$refs.Child_Classification_add_foundername.value;
-            this.Child_Classification_add_unqid = this.$refs.Child_Classification_add_unqid.value;
 
             axios.post('post/Child_Classification_add', {
                     fathername: self.Father_Unqid,
                     name: self.Child_Classification_add_name,
                     foundername: self.Child_Classification_add_foundername,
-                    unqid: self.Child_Classification_add_unqid,
                 })
                 .then(function(response) {
                     self.get_classification_data()
@@ -151,8 +177,22 @@ var classificationPagging1 = new Vue({
         },
 
         //刪除子分類資料
-        delete_child_cls: function() {
+        delete_child_cls: function(unqid) {
+            let self = this;
 
+            var sure = confirm("刪除此分類將會連擁有此分類的標籤刪除，確認刪除?");
+
+            if (sure == true) {
+                axios.post('post/delete_child_cls', {
+                        unqid: unqid,
+                    })
+                    .then(function(response) {
+                        self.get_classification_data()
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
         },
 
         //初始化左邊頁面的主題資料

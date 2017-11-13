@@ -1,6 +1,6 @@
 @extends('MainBoard')
 @section('BodyContent')
-<!-- Modal -->
+<!-- Modal theme add-->
 <div class="modal fade" id="ThemeCreate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -25,7 +25,6 @@
                         <input type="text" class="form-control" name="theme_creater" id="theme_creater" placeholder="" required value='{{ Auth::user()->username }}' >  
                         <small class="text-muted"> 請輸入名字 </small>     
                     </div>
-                    <input type="hidden" name='theme_unqid' value="<?php echo uniqid() ?>">
                 </form>       
             </div>
             <div class="modal-footer">
@@ -35,105 +34,67 @@
         </div>
     </div>
 </div>
+
 <!-- text content -->
 <div class="content">
 
-    <!-- <nav class="nav nav-tabs" id="myTab" style="width:100%;" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-expanded="true">我的主題</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile">收藏的主題</a>
-    </nav> -->
     <div class="themeTitle">主題管理</div>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <?php
-                // foreach ($themes as $user)
-                // {
-                //     echo $user->themename;
-                // }
-            ?>
+            
+            <!-- 新增 合併主題按鈕 -->
             <div class="NewTheme">
                 <div class="NewAdd">
                     <img class="addTheme_img NewThemeIcon" src="../resources/assets/image/icon/plus.png" alt="">
-                    <!-- <span class="NewTheme_click">新增主題</span> -->
                     <button type="button" class="btn btn_theme_create" data-toggle="modal" data-target="#ThemeCreate">新增主題</button>
-                    <button type="button" class="btn btn_theme_create" data-toggle="modal" data-target="#ThemeCreate">合併主題</button>
+                    <button type="button" class="btn btn_theme_create" data-toggle="modal" data-target="#ThemeCreate">群組</button>
+                    <button type="button" class="btn btn_theme_create" id="delete_theme">刪除</button>
                 </div>
-                <!-- <div class="ThemeSearch">  
-                    <nav class="navbar navbar-light bg-light">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </nav>
-                </div>
-                <div class="ThemeSort"></div> -->
             </div>
 
+            <!-- 列出所有主題資料 -->
             <div class="ThemeContainer">
-                <table id="ThemeTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>主題名稱</th>
-                            <th>作者</th>
-                            <th>建立日期</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $id = 1 ;
-                        foreach ($themes_my as $theme_my)
-                        {
-                            echo "<tr>" ;
-                                echo "<td>".$id."</td>" ;
-                                echo "<td>".$theme_my->themename."</td>" ;
-                                echo "<td>".$theme_my->foundername."</td>" ;
-                                echo "<td>".$theme_my->created_at."</td>" ;
-                            echo "</tr>" ;
-                            $id++;
-                        }
+                <form id="delete_theme_form" action="{{ route('delete_theme.delete') }}" method="post">
+                {{ csrf_field() }}
+                    <table id="ThemeTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>ID</th>
+                                <th>主題名稱</th>
+                                <th>作者</th>
+                                <th>建立日期</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                                      
+                                <?php
+                                $id = 1 ;
+                                foreach ($themes_my as $theme_my)
+                                {
+                                    echo '<tr class="checkbox_tr">' ;
+                                        echo '<td>';  
+                                            echo '<input type="checkbox" class="checkbox_td" name="themes_data[]" value="'.$theme_my->unqid.'">';
+                                            echo '<div style="position:absolute; height:100%;width:100%; background-color:rgba(0,0,0,0); left:0; top:0;"></div>';
+                                        echo '</td>' ;
+                                        echo '<td>'.$id.'</td>' ;
+                                        echo '<td>'.$theme_my->themename.'</td>' ;
+                                        echo '<td>'.$theme_my->foundername.'</td>' ;
+                                        echo '<td>'.$theme_my->created_at.'</td>' ;
+                                    echo '</tr>' ;
+                                    $id++;
+                                }
+                                ?>
 
-                        ?>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </form>
             </div>
         
             <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
         </div>
-        <div class="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-
-            <div class="NewTheme">
-            <img class="menu_img NewThemeIcon" src="../resources/assets/image/icon/plus.png" style="visibility:hidden;">
-            </div>
-            <div class="ThemeContainer">
-                <table id="ThemeTable_collect" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>主題名稱</th>
-                            <th>作者</th>
-                            <th>建立日期</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $id = 1 ;
-                        foreach ($themes_collect as $theme_collect)
-                        {
-                            echo "<tr>" ;
-                                echo "<td>".$id."</td>" ;
-                                echo "<td>".$theme_collect->themename."</td>" ;
-                                echo "<td>".$theme_collect->foundername."</td>" ;
-                                echo "<td>".$theme_collect->created_at."</td>" ;
-                            echo "</tr>" ;
-                            $id++;
-                        }
-
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        
     </div>
 
 </div>

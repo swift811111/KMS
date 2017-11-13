@@ -79,38 +79,40 @@ body {
           border: 2px solid #BABABA;
           border-radius: 10px; }
         .classification_container .classifications .classifications_content .classifications_content_page .level {
-          min-height: 5em;
+          min-height: 2em;
           height: auto;
           width: 100%;
           display: flex;
           justify-content: center;
           align-items: center; }
           .classification_container .classifications .classifications_content .classifications_content_page .level:nth-child(odd) {
-            background: #EAEAEA; }
+            background-color: #EAEAEA; }
           .classification_container .classifications .classifications_content .classifications_content_page .level:nth-child(even) {
-            background: #F7F7F7; }
+            background-color: #F7F7F7; }
+          .classification_container .classifications .classifications_content .classifications_content_page .level:hover {
+            background-color: #dbd7d7; }
           .classification_container .classifications .classifications_content .classifications_content_page .level .preLevel {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 5em;
+            min-height: 2em;
             height: 100%;
             width: 7em;
             font-weight: bold; }
           .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer {
             display: flex;
             flex-wrap: wrap;
-            min-height: 5em;
-            padding: 0.5em 0 0 0.5em;
+            align-items: center;
+            min-height: 2.1em;
             height: 100%;
-            width: 100%;
-            border-left: 1px solid; }
+            width: 100%; }
             .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .childLevel,
             .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .childLevel-img {
               border-radius: 4.5px;
               height: 1.8em;
               width: 6em;
               margin-right: 0.1em;
+              margin-top: 0.1em;
               background-color: #8bc4bc; }
             .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .childLevel-img {
               background-color: rgba(0, 0, 0, 0);
@@ -154,5 +156,8 @@ img.child_classification_delete {
   height: 0.8em;
   width: 0.8em;
   cursor: pointer; }
+
+.bookmark_color {
+  background-color: #FFFCD7; }
 
 /*# sourceMappingURL=classification_manage_css.css.map */

@@ -49,21 +49,6 @@ $(document).ready(function() {
     //sign submit SignForm
     $("#sign_btn").click(function() {
         $("#SignForm").submit();
-        // $.ajax({
-        //     type: "POST",
-        //     url: "/login",
-        //     dataType: "json",
-        //     data: {
-        //         username: $(".username").val(),
-        //         password: $(".password").val()
-        //     },
-        //     success: function(data) {
-        //         alert('success');
-        //     },
-        //     error: function(jqXHR) {
-        //         alert("發生錯誤: " + jqXHR.status);
-        //     }
-        // })
     });
 
 
@@ -71,10 +56,11 @@ $(document).ready(function() {
 });
 
 //管理文章的ICON轉動
-var manageBtnClick = new Vue({
+var sidebar = new Vue({
     el: '.side_bar',
     data: {
         show: true,
+        theme_data: [],
     },
     methods: {
         imgTransform: function() {
@@ -85,6 +71,6 @@ var manageBtnClick = new Vue({
                 $("img.chevron-sign-to-right").css("transform", "rotate(90deg)");
                 this.show = true;
             }
-        }
+        },
     }
 });
