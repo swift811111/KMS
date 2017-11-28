@@ -128,11 +128,21 @@ body {
                         min-height: 2.1em;
                         @include size(100%,
                         100%); // border-left: 1px solid;
-                        .childLevel,
-                        .childLevel-img {
+                        .childLevel {
+                            .cls_name {
+                                @include size(1.8em,
+                                100%);
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                font-size: 1em;
+                                margin-left: 0.1em;
+                            }
+                        }
+                        .childLevel {
                             border-radius: 4.5px;
                             @include size(1.8em,
-                            6em);
+                            9em);
                             margin-right: 0.1em;
                             margin-top: 0.1em;
                             background-color: rgb(139, 196, 188);
@@ -141,12 +151,7 @@ body {
                             background-color: rgba(0, 0, 0, 0);
                             display: flex;
                             align-items: center;
-                            margin-left: 0.6em;
-                        }
-                        .classification_btn {
-                            @include size(1.8em,
-                            1.8em);
-                            cursor: pointer;
+                            border: 1px solid red;
                         }
                     }
                 }
@@ -192,6 +197,13 @@ img.themes_bookmark_cancel {
 img.child_classification_delete {
     @include size(0.8em,
     0.8em);
+    cursor: pointer;
+}
+
+img.classification_btn {
+    @include size(1.8em,
+    1.8em);
+    margin-right: 0.6em;
     cursor: pointer;
 }
 

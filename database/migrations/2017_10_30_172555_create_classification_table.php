@@ -18,6 +18,7 @@ class CreateClassificationTable extends Migration
             $table->string('fathername');
             $table->string('name');
             $table->string('foundername');
+            $table->string('foundername_unqid');
             $table->string('unqid');
             $table->timestamps();
         });

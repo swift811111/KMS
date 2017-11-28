@@ -1,0 +1,78 @@
+body {
+  background-image: url("../../image/bg/bg5.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  overflow: auto; }
+
+.flex {
+  display: flex; }
+
+.none {
+  display: none; }
+
+.cursor {
+  cursor: pointer; }
+
+.hidden {
+  display: none; }
+
+.content {
+  left: 50px;
+  width: calc(100% - 100px);
+  background-color: #FFFCD7; }
+  .content .themeTitle {
+    height: 3em;
+    width: 100%;
+    background-color: #41A99D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E2F2F0; }
+  .content .article_navbar_group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F7F7F7;
+    line-height: 28px; }
+    .content .article_navbar_group .article_navbar {
+      height: 100%;
+      width: 6em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-right: 1px solid black;
+      cursor: pointer; }
+    .content .article_navbar_group .navbar_side {
+      width: auto; }
+    .content .article_navbar_group .article_input_btn {
+      height: 1.8em;
+      width: 6em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #0275D8;
+      color: white;
+      margin-left: 0.35em;
+      border: 1px solid transparent;
+      border-radius: .25rem;
+      font-size: 1rem; }
+    .content .article_navbar_group .article_cancel_btn {
+      height: 1.8em;
+      width: 6em;
+      border: 1px solid transparent;
+      border-radius: .25rem;
+      font-size: 1rem; }
+  .content .article_input_table {
+    overflow: auto;
+    margin-top: 0.8em; }
+    .content .article_input_table .article_input_text_group {
+      display: flex; }
+    .content .article_input_table .article_input_group {
+      margin-left: 1em; }
+      .content .article_input_table .article_input_group .label_text {
+        font-weight: bold; }
+
+.navbar_color {
+  background-color: #FFFCD7; }
+
+/*# sourceMappingURL=create_article_page_css.css.map */

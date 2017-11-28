@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\users , App\themes , App\classification ,App\childclassification;
+use App\users , App\themes , App\classification ,App\childclassification,App\theme_group,App\create_article,
+    App\search_association;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Hash ;
 use Validator, Input, Redirect, Auth, DB; 
@@ -26,10 +27,53 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+
+    //新增文章頁面
+    public function create_article_page()
     {
-        return View::make('site/signtest')
-            ->with('title', '註冊');
+        return View::make('site/create_article_page');
+            
+    }
+    //新增文章
+    public function create_article(Request $request){
+
+        $article_unqid = md5( uniqid(mt_rand(),true) ) ;
+        
+        //文章所有內容存入所屬資料庫
+        $article = create_article::firstOrCreate(array(
+            'article_author' => Auth::user()->username ,
+            'author_unqid' => Auth::user()->unqid ,
+            'article_title' => $request->article_title ,
+            'article_source' => $request->article_source ,
+            'article_summary' => $request->article_summary,
+            'article_content' => $request->article_textarea,
+            'article_unqid' => $article_unqid,
+            ));
+        
+        //將文章所關聯的主題跟分類放進資料庫
+        $checkbox_value = $request->checkbox_value;
+        $checkbox_value_array = preg_split("/,/", $checkbox_value);
+
+        foreach ($checkbox_value_array as $item) {
+            
+            $cls_f_unqid = substr(trim($item),0,32); //父分類unqid
+            $cls_c_unqid = substr(trim($item),32,64); //子分類unqid
+
+            $theme_unqid =  DB::table('classification')
+            ->where('foundername_unqid', Auth::user()->unqid)
+            ->where('unqid', $cls_f_unqid)
+            ->get();
+
+            $sotre_data = search_association::firstOrCreate(array(
+            'user' => Auth::user()->username ,
+            'user_unqid' => Auth::user()->unqid ,
+            'article_unqid' => $article_unqid ,
+            'theme_unqid' => $theme_unqid[0]->fathername ,
+            'cls_f_unqid' => $cls_f_unqid ,
+            'cls_c_unqid' => $cls_c_unqid,       
+            ));
+        }      
+        return Redirect::to('/article_manage');
     }
 
     /**
@@ -117,7 +161,7 @@ class UsersController extends Controller
             'username' => $username ,
             'password' => \Hash::make($password) ,
             'email' => $email ,
-            'unqid' =>  uniqid(true,true),       
+            'unqid' =>  md5( uniqid(mt_rand(),true) ),       
             ));
 
             Auth::attempt(array('username' => $username ,'password' => $password)) ;
@@ -178,12 +222,18 @@ class UsersController extends Controller
     public function theme_manage()
     {
         $themes_my = DB::table('themes')
-            ->where('foundername', Auth::user()->username)
+            ->where('foundername_unqid', Auth::user()->unqid)
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $themes_group_my = DB::table('theme_group')
+            ->where('foundername_unqid', Auth::user()->unqid)
             ->orderBy('id', 'DESC')
             ->get();
 
         return view('site/theme_manage')
-            ->with('themes_my',$themes_my);
+            ->with('themes_my',$themes_my)
+            ->with('themes_group_my',$themes_group_my);
         // return $themes;
     }
 
@@ -216,25 +266,25 @@ class UsersController extends Controller
         //刪除主題與其底下的所有父分類 子分類
         foreach ($unqids as $unqid) { //主題
             $delete_theme = DB::table('themes')
-            ->where('foundername', Auth::user()->username)
+            ->where('foundername_unqid', Auth::user()->unqid)
             ->where('unqid', $unqid)
             ->delete();
 
             $delete_clsfather = DB::table('classification') //父分類
-            ->where('foundername', Auth::user()->username)
+            ->where('foundername_unqid', Auth::user()->unqid)
             ->where('fathername', $unqid)
             ->delete();
 
             foreach ($delete_array as $item) {  //子分類
                 $delete_clschild = DB::table('childclassifications')
-                ->where('foundername', Auth::user()->username)
+                ->where('foundername_unqid', Auth::user()->unqid)
                 ->where('clssificationfathername', $item->unqid)
                 ->delete();
             }
         }
 
         $themes_my = DB::table('themes')
-            ->where('foundername', Auth::user()->username)
+            ->where('foundername_unqid', Auth::user()->unqid)
             ->orderBy('id', 'DESC')
             ->get();
         
@@ -249,7 +299,7 @@ class UsersController extends Controller
     {
         $input = $request->all() ;
         $theme_name = $request->theme_name ;
-        $theme_creater = $request->theme_creater ;
+        // $theme_creater = $request->theme_creater ;
         // return $input ;
 
         //驗證-----------------
@@ -263,8 +313,9 @@ class UsersController extends Controller
 
             $theme_add = themes::firstOrCreate(array(
                 'themename' => $theme_name ,
-                'foundername' => $theme_creater ,
-                'unqid' => uniqid(true,true),
+                'foundername' => Auth::user()->username ,
+                'foundername_unqid' =>Auth::user()->unqid ,
+                'unqid' => md5( uniqid(mt_rand(),true) ),
                 'public' => 1       
                 ));
 
@@ -287,6 +338,36 @@ class UsersController extends Controller
         //return $input ;
     }
 
+    //建立群組
+    public function create_theme_group(Request $request)
+    {
+        $input = $request->all() ;
+
+        $theme_group = theme_group::firstOrCreate(array(
+            'name' => $request->name ,
+            'foundername' => Auth::user()->username ,
+            'foundername_unqid' => Auth::user()->unqid ,
+            'theme_name_json' => $request->theme_select_json,
+            'unqid' => md5( uniqid(mt_rand(),true) ),
+            // md5( uniqid(mt_rand(),true) )
+            ));
+
+        return $input ;
+    }
+    //刪除群組
+    public function delete_theme_group(Request $request)
+    {
+        $input = $request->all() ;
+
+        // $theme_group = theme_group::firstOrCreate(array(
+        //     'name' => $request->name ,
+        //     'foundername' => Auth::user()->username ,
+        //     'theme_name_json' => $request->theme_select_json,
+        //     'unqid' => md5( uniqid(mt_rand(),true) ),
+        //     ));
+        return $input;
+    }
+
     //父分類
     public function classification_add(Request $request)
     {
@@ -295,7 +376,8 @@ class UsersController extends Controller
         $classification_add = classification::firstOrCreate(array(
             'fathername' => $request->fathername ,
             'foundername' => $request->foundername ,
-            'unqid' => uniqid(true,true),
+            'foundername_unqid' => Auth::user()->unqid ,
+            'unqid' => md5( uniqid(mt_rand(),true) ),
             'name' => $request->name,     
             ));
 
@@ -308,12 +390,12 @@ class UsersController extends Controller
 
         foreach( $input as $item){
             $delete_father_cls = DB::table('classification')
-            ->where('foundername', Auth::user()->username)
+            ->where('foundername_unqid', Auth::user()->unqid)
             ->where('unqid', $item)
             ->delete();
 
             $delete_child_cls = DB::table('childclassifications')
-            ->where('foundername', Auth::user()->username)
+            ->where('foundername_unqid', Auth::user()->unqid)
             ->where('clssificationfathername', $item)
             ->delete();
         }
@@ -329,7 +411,8 @@ class UsersController extends Controller
         $classification_add = childclassification::firstOrCreate(array(
             'clssificationfathername' => $request->fathername ,
             'foundername' => $request->foundername ,
-            'unqid' => uniqid(true,true),
+            'foundername_unqid' => Auth::user()->unqid ,
+            'unqid' => md5( uniqid(mt_rand(),true) ),
             'name' => $request->name,     
             ));
 
@@ -341,7 +424,7 @@ class UsersController extends Controller
         $input = $request->all() ;
 
         $delete_child_cls = DB::table('childclassifications')
-            ->where('foundername', Auth::user()->username)
+            ->where('foundername_unqid', Auth::user()->unqid)
             ->where('unqid', $input)
             ->delete();
     }
@@ -359,20 +442,32 @@ class UsersController extends Controller
     }
 
     //data
+    // theme data
     public function theme_data()
     {
         $themes_my = DB::table('themes')
-            ->where('foundername', Auth::user()->username)
+            ->where('foundername_unqid', Auth::user()->unqid)
             ->orderBy('id', 'DESC')
             ->get();
         //return response()->json(['themes_my' => $themes_my]) ;
         return response()->json($themes_my);
     }
 
+    // theme_group data
+    public function theme_group_data()
+    {
+        $theme_group_data = DB::table('theme_group')
+            ->where('foundername_unqid', Auth::user()->unqid)
+            ->orderBy('id', 'DESC')
+            ->get();
+        //return response()->json(['themes_my' => $themes_my]) ;
+        return response()->json($theme_group_data);
+    }
+
     public function classification_data( $fathername )
     {
         $classification = DB::table('classification')
-            ->where('foundername', Auth::user()->username)
+            ->where('foundername_unqid', Auth::user()->unqid)
             ->where('fathername', $fathername)
             ->orderBy('id', 'DESC')
             ->get();
@@ -380,7 +475,7 @@ class UsersController extends Controller
         $unqidcollect = [] ;
         foreach ($classification as $cla){
             $childclassification = DB::table('childclassifications')
-                ->where('foundername', Auth::user()->username)
+                ->where('foundername_unqid', Auth::user()->unqid)
                 ->where('clssificationfathername', $cla->unqid)
                 ->orderBy('id', 'DESC')
                 ->get();
@@ -397,5 +492,4 @@ class UsersController extends Controller
         // return response()->json($classification[0]->name);
     }
 
-    
 }

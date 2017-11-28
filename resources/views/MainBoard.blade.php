@@ -112,7 +112,7 @@
 
                 <div class="item">
                     <a data-toggle="collapse" data-parent="#exampleAccordion" href="#exampleAccordion2" aria-expanded="false" aria-controls="exampleAccordion2">              
-                        <div class="collapse_title">
+                        <div class="collapse_title" onclick="window.location='{{ url("create_article_page") }}'">
                             新增文章
                         </div>
                     </a>

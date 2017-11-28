@@ -31,8 +31,10 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/theme_manage', 'UsersController@theme_manage');
     Route::get('/logout', 'UsersController@logout');
     
-    Route::get('/classification_manage', 'UsersController@classification_manage');
-    Route::get('/article_manage', 'UsersController@article_manage');
+    //管理頁面
+    Route::get('/classification_manage', 'UsersController@classification_manage');//分類管理頁面
+    Route::get('/article_manage', 'UsersController@article_manage');//文章管理頁面
+    Route::get('/create_article_page', 'UsersController@create_article_page'); //新增文章葉面
 
     //post data
     Route::post('/post/themeAdd',[  //新增主題
@@ -55,13 +57,27 @@ Route::group(['middleware'=>'auth'],function(){
         'as' => 'delete_theme.delete',
         'uses' => 'UsersController@delete_theme'
     ]);
-    Route::post('/post/delete_father_cls',[  //刪除主題
+    Route::post('/post/delete_father_cls',[  //刪除父分類
         'as' => 'delete_father_cls.delete',
         'uses' => 'UsersController@delete_father_cls'
     ]);
+    Route::post('/post/create_theme_group',[  //新增群組
+        'as' => 'create_theme_group.create',
+        'uses' => 'UsersController@create_theme_group'
+    ]);
+    Route::post('/post/delete_theme_group',[  //刪除群組
+        'as' => 'delete_theme_group.delete',
+        'uses' => 'UsersController@delete_theme_group'
+    ]);
+    Route::post('/post/create_article',[  //新增文章
+        'as' => 'create_article.create',
+        'uses' => 'UsersController@create_article'
+    ]);
+
 
     //get data
     Route::get('/data/theme_data', 'UsersController@theme_data');  //拿到主題資料
+    Route::get('/data/theme_group_data', 'UsersController@theme_group_data');  //拿到合併主題資料
     Route::get('/data/classification_data/{fathername}', 'UsersController@classification_data');  //拿到父分類資料
     Route::get('/data/childclassification_data/{fathername}', 'UsersController@childclassification_data');  //拿到子分類資料
     

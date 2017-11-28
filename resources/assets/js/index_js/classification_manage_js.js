@@ -15,6 +15,7 @@ var classificationPagging = new Vue({
         themes_my: [], //主題列表
         themes_bookmark: [], //檢視是否存在重複的主題頁籤
         show: false, //新增按鈕是否顯示
+        theme_group_data: "", //群組資料
 
         //父分類
         classification_names: [], //儲存所有父分類資料
@@ -137,19 +138,24 @@ var classificationPagging = new Vue({
             let self = this;
 
             var checked_box_length = $('input[type="checkbox"]:checked').length;
-            var sure = confirm("刪這些分類將會連擁有此分類的標籤刪除，確認刪除 " + checked_box_length + " 筆資料?");
 
-            if (sure == true) {
-                axios.post('post/delete_father_cls', {
-                        unqid: self.father_checkedunqid,
-                    })
-                    .then(function(response) {
-                        self.get_classification_data()
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
+            if (checked_box_length <= 0) {
+                alert("請選擇至少一項分類");
+            } else {
+                var sure = confirm("刪這些分類將會連擁有此分類的標籤刪除，確認刪除 " + checked_box_length + " 筆資料?");
+                if (sure == true) {
+                    axios.post('post/delete_father_cls', {
+                            unqid: self.father_checkedunqid,
+                        })
+                        .then(function(response) {
+                            self.get_classification_data()
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                }
             }
+
         },
 
         //新增子分類
@@ -195,6 +201,26 @@ var classificationPagging = new Vue({
             }
         },
 
+        //點擊群組
+        click_theme_group: function(theme_name_json) {
+            //取出資料 去空白和不必要的符號 放進array
+            var theme_name_array = theme_name_json.replace(/"|\[|\]/g, '').replace(/[ ]/g, "").trim().split(",");
+            console.log(theme_name_array);
+
+        },
+        //得到群組資料
+        get_theme_group_data: function() {
+            let self = this;
+            axios.get('data/theme_group_data')
+                .then(function(response) {
+                    self.theme_group_data = response.data;
+                    console.log(self.theme_group_data);
+                })
+                .catch(function(response) {
+                    console.log("error");
+                });
+        },
+
         //初始化左邊頁面的主題資料
         init: function() {
             let self = this;
@@ -209,6 +235,7 @@ var classificationPagging = new Vue({
     },
     mounted: function() {
         this.init()
+        this.get_theme_group_data()
     },
 
 });

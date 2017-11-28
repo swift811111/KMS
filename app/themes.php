@@ -13,7 +13,7 @@ class themes extends Model
      * @var array
      */
      protected $fillable = [
-        'themename', 'foundername', 'public','unqid',
+        'themename', 'foundername', 'public','unqid','foundername_unqid',
     ];
 
     /**
@@ -22,6 +22,6 @@ class themes extends Model
      * @var array
      */
     protected $hidden = [
-        'remember_token','unqid',
+        'remember_token','unqid','foundername_unqid'
     ];
 }

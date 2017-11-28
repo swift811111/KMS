@@ -64,6 +64,12 @@ body {
     align-items: center;
 }
 
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 header {
     height: 55px;
     border-bottom: 1px solid white;

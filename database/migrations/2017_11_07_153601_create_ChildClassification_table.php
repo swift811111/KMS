@@ -17,6 +17,7 @@ class CreateChildClassificationTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('foundername');
+            $table->string('foundername_unqid');
             $table->string('clssificationfathername');
             $table->string('unqid');
             $table->timestamps();

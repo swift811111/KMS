@@ -1,0 +1,98 @@
+@mixin size($h:auto, $w:auto) {
+    height: $h;
+    width: $w;
+}
+
+@mixin allCenter() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    background-image: url('../../image/bg/bg5.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    overflow: auto;
+}
+
+.flex {
+    display: flex;
+}
+
+.none {
+    display: none;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.content {
+    left: 50px;
+    width: calc(100% - 100px);
+    background-color: #FFFCD7;
+    .themeTitle {
+        @include size(3em,
+        100%);
+        background-color: #41A99D;
+        @include allCenter();
+        color: #E2F2F0;
+    }
+    .article_navbar_group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #F7F7F7;
+        line-height: 28px;
+        .article_navbar {
+            @include size(100%,
+            6em);
+            @include allCenter();
+            border-right: 1px solid black;
+            cursor: pointer; // border-radius: .25rem;
+        }
+        .navbar_side {
+            width: auto;
+        }
+        .article_input_btn {
+            @include size(1.8em,
+            6em);
+            @include allCenter();
+            background-color: #0275D8;
+            color: white;
+            margin-left: 0.35em;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            font-size: 1rem;
+        }
+        .article_cancel_btn {
+            @include size(1.8em,
+            6em);
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            font-size: 1rem;
+        }
+    }
+    .article_input_table {
+        overflow: auto;
+        margin-top: 0.8em;
+        .article_input_text_group {
+            display: flex;
+        }
+        .article_input_group {
+            margin-left: 1em;
+            .label_text {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.navbar_color {
+    background-color: #FFFCD7;
+}

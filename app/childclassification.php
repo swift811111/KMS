@@ -13,7 +13,7 @@ class childclassification extends Model
      * @var array
      */
      protected $fillable = [
-        'clssificationfathername','name', 'foundername', 'id','unqid',
+        'clssificationfathername','name', 'foundername', 'id','unqid','foundername_unqid'
     ];
 
     /**
@@ -22,6 +22,6 @@ class childclassification extends Model
      * @var array
      */
     protected $hidden = [
-        'remember_token','unqid',
+        'remember_token','unqid','foundername_unqid'
     ];
 }

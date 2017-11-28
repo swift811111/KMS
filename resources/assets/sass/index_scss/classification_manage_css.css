@@ -106,11 +106,18 @@ body {
             min-height: 2.1em;
             height: 100%;
             width: 100%; }
-            .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .childLevel,
-            .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .childLevel-img {
+            .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .childLevel .cls_name {
+              height: 1.8em;
+              width: 100%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              font-size: 1em;
+              margin-left: 0.1em; }
+            .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .childLevel {
               border-radius: 4.5px;
               height: 1.8em;
-              width: 6em;
+              width: 9em;
               margin-right: 0.1em;
               margin-top: 0.1em;
               background-color: #8bc4bc; }
@@ -118,11 +125,7 @@ body {
               background-color: rgba(0, 0, 0, 0);
               display: flex;
               align-items: center;
-              margin-left: 0.6em; }
-            .classification_container .classifications .classifications_content .classifications_content_page .level .childLevelContainer .classification_btn {
-              height: 1.8em;
-              width: 1.8em;
-              cursor: pointer; }
+              border: 1px solid red; }
 
 .expand-transition {
   transition: all .3s ease;
@@ -155,6 +158,12 @@ img.themes_bookmark_cancel {
 img.child_classification_delete {
   height: 0.8em;
   width: 0.8em;
+  cursor: pointer; }
+
+img.classification_btn {
+  height: 1.8em;
+  width: 1.8em;
+  margin-right: 0.6em;
   cursor: pointer; }
 
 .bookmark_color {

@@ -74,8 +74,8 @@
             <div class="theme_menu_title">
                 合併主題列表
             </div>
-            <div class="themename">
-                <div class="themePaggingNamme">測試</div>
+            <div class="themename" v-for="item in theme_group_data" @click="click_theme_group(item.theme_name_json)">
+                <div class="themePaggingNamme" >@{{ item.name }}</div>
                 <img class="themePaggingAdd" src="../resources/assets/image/icon/add.png" alt="">
             </div>
             
@@ -94,7 +94,7 @@
             ?>
             <!-- 在左側列出所有主題 -->
             <div class="themename" v-for="item in themes_my" @click="add_to_bookmark(item.themename, item.unqid)"> 
-                <div class="themePaggingNamme" >@{{ item.themename }}</div>
+                <div class="themePaggingNamme ellipsis" :title="item.name">@{{ item.themename }}</div>
                 <img class="themePaggingAdd" src="../resources/assets/image/icon/add.png" alt="">
             </div>
 
@@ -105,7 +105,7 @@
             <!-- 顯示以點選的主題頁籤 -->
             <div class="classifications_title" id="classifications_title">
                 <div v-for="(item,index) in themes_bookmark"  :id="item.unqid" :class="[(fathername == item.unqid) ? bookmark_color : null]" class="ThemePageTitle cursor" >
-                    <div @click="bookmark_click(item.unqid)">
+                    <div class="ellipsis" @click="bookmark_click(item.unqid)" :title="item.name">
                         @{{ item.name }}
                     </div>
                     <img class="themes_bookmark_cancel" @click="remove_from_bookmark(item)" src="../resources/assets/image/icon/cancel.png" alt="">
@@ -130,23 +130,22 @@
                         <div class="preLevel">@{{ item.name }}</div>
 
                         <!-- 子分類及新增子分類功能 -->
+                        <div class="childLevel-img">
+                                <!-- <button class="classification_btn" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Uunqid(item.unqid)">+</button> -->
+                                <img class="classification_btn" src="../resources/assets/image/icon/plus.png" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Uunqid(item.unqid)">
+                        </div>
                         <div class="childLevelContainer">
                             <div class="childLevel center" v-for=" clsitem in childclassifications[index]">
-                                <div style="width:100%;overflow:hidden;" class="center" :title="clsitem.name">
+                                <div class="cls_name" :title="clsitem.name">
                                     @{{ clsitem.name }}
                                 </div>
                                 <div style="width:23%;" class="center">
                                     <img class="child_classification_delete" @click="delete_child_cls(clsitem.unqid)"  src="../resources/assets/image/icon/forbidden-sign.png">
                                 </div>
                             </div>
-                            <div class="childLevel-img">
-                                <!-- <button class="classification_btn" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Uunqid(item.unqid)">+</button> -->
-                                <img class="classification_btn" src="../resources/assets/image/icon/plus.png" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Uunqid(item.unqid)">
-                            </div>
+                            
                         </div>
-
-                    </div>
-                    
+                    </div>                    
                 </div>
                 
             </div>
@@ -160,78 +159,6 @@
 @section('BodyScriptCss')
 
 <script type="text/javascript" src="../resources/assets/js/index_js/classification_manage_js.js"></script>
- 
-<script>
-
-
-// var Vue = require('vue');
-// Vue.use(require('vue-resource'));
-
-// Vue.component('child', {
-//     // 声明 props
-//     // props: ['messageq'],
-//     // 就像 data 一样，prop 可以用在模板内
-//     // 同样也可以在 vm 实例中像“this.message”这样使用
-//     template: '<div class="ThemePageTitle" v-on:click="addpag">456</div>',
-//     data: function() {
-//         return {
-//             message: 123
-//         }
-//     },
-//     methods: {
-//         app: function() {
-//             alert('asd');
-//         }
-//     }
-// })
-
-// var classificationPagging = new Vue({
-//     el: '.classification_container',
-//     data: {
-//         show: true,
-//         exists: [],
-//         clickItemId: " ",
-//         message: "hello123",
-//         pos: [],
-//         items: {!! $themes_my !!},
-//         range: 0,
-//     },
-//     methods: {
-//         toggle: function() {
-//             this.show = !this.show;
-//         },
-//         appearId: function() {
-//             console.log('46');
-//         },
-//         appear: function(item) {
-//             if (this.exists.indexOf(item.id) >= 0) {
-//                 alert('已經存在該項目');
-//                 this.clickItemId = item.id;
-//             } else {
-//                 var namePag = document.createElement("div");
-//                 namePag.setAttribute("class", "ThemePageTitle");
-//                 namePag.innerHTML = item.themename;
-//                 $('.classifications_title').append(namePag);
-//                 this.exists.push(item.id);
-//                 this.clickItemId = item.id;
-//                 // this.Item = item;
-//                 // <div class="ThemePageTitle">item.themename</div>
-//                 // var namePag2 = document.createElement("child");
-//                 // $('.classifications_title').append(namePag2);
-//             }
-//         },
-//         addpag: function() {
-//             this.range += 1;
-//         },
-//         mounted: {
-
-//         }
-//         // loadPersonalObjectives: function() {
-//         //     Vue.http.get('/data').then((response) => { this.pos = response.data; });
-//         // }
-//     }
-// });
-</script>
 <link rel="stylesheet" href="../resources/assets/sass/index_scss/classification_manage_css.css">
 
 @endsection

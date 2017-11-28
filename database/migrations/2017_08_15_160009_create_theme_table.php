@@ -17,6 +17,7 @@ class CreateThemeTable extends Migration
             $table->increments('id');
             $table->string('themename');
             $table->string('foundername');
+            $table->string('foundername_unqid');
             $table->string('unqid');
             $table->boolean('public');
             $table->timestamps();
