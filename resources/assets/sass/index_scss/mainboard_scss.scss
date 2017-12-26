@@ -54,8 +54,7 @@ html {
 body {
     min-height: 100% !important;
     @include size(100%,
-    100%);
-    // overflow: auto;
+    100%); // overflow: auto;
 }
 
 .center {
@@ -68,6 +67,18 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.none {
+    display: none;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 header {
@@ -146,7 +157,7 @@ header {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     display: none;
-    z-index: 1;
+    z-index: 3;
 }
 
 .side_bar {
@@ -156,7 +167,7 @@ header {
     left: -400px;
     top: 0px;
     background-color: #F1F1F1;
-    z-index: 3;
+    z-index: 4;
 }
 
 .cancel {
@@ -264,7 +275,7 @@ header {
 }
 
 //-- center content-----------------------------
-p {
+.center_content {
     font-size: 27px;
     margin-top: -50px;
 }
@@ -298,6 +309,22 @@ img.chevron-sign-to-right {
     transition: transform 0.3s;
 }
 
+//icon
+img.article_edit_icon {
+    @include size(1.5em,
+    1.5em)
+}
+
+img.article_view_icon {
+    @include size(1.5em,
+    1.5em)
+}
+
+img.icon {
+    @include size(1.3em,
+    1.3em)
+}
+
 //---Input--------------------------------------
 .form input[type=text],
 .form input[type=password] {
@@ -319,6 +346,7 @@ img.chevron-sign-to-right {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 5;
     input {
         border: none;
         border-bottom: 1px solid #E9E9E9;
@@ -343,6 +371,14 @@ img.chevron-sign-to-right {
     }
     .text-muted {
         display: none;
+    }
+}
+
+.form {
+    background-color: white;
+    padding: 1em 0;
+    .form-group {
+        padding: 1em 1em 0 1em;
     }
 }
 

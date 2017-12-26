@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent;
 
 class theme_group extends Model
 {
@@ -13,7 +15,7 @@ class theme_group extends Model
      * @var array
      */
      protected $fillable = [
-        'name', 'foundername', 'theme_name','theme_name_json','unqid','foundername_unqid'
+        'username', 'user_unqid', 'theme_group_name','theme_group_unqid',
     ];
 
     /**
@@ -22,6 +24,8 @@ class theme_group extends Model
      * @var array
      */
     protected $hidden = [
-        'remember_token','unqid','foundername_unqid'
+        'remember_token','theme_group_unqid','user_unqid'
     ];
+
+    
 }

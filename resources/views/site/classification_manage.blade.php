@@ -17,7 +17,7 @@
                 </div>
                 <div class="modal-body ">
                     <!-- sign up form -->
-                    <!-- <form action="{{ route('theme.add') }}" method="post" id="ClassificationCreateForm" role="form"> -->
+                    
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="">分類名稱</label>
@@ -25,7 +25,7 @@
                             <small class="text-muted"> 請輸入分類名稱 </small>    
                         </div>
                         <input type="hidden" name='classification_foundername' ref="classification_foundername" value="{{ Auth::user()->username }}">
-                    <!-- </form>        -->
+                  
                 </div>
                 <div class="modal-footer">
                     <!-- <button type="button" class="btn btn-secondary" @click="new_classification" data-dismiss="modal">關閉</button> -->
@@ -48,15 +48,13 @@
                 </div>
                 <div class="modal-body ">
                     <!-- sign up form -->
-                    <!-- <form action="{{ route('theme.add') }}" method="post" id="Child_Classification_AddForm" role="form"> -->
-                        {{ csrf_field() }}
-                        <div class="form-group">
-                            <label for="">子分類名稱</label>
-                            <input type="text" class="form-control" name="Child_Classification_add_name" ref="Child_Classification_add_name" id="Child_Classification_add_name" placeholder="" required >
-                            <small class="text-muted"> 請輸入子分類名稱 </small>    
-                        </div>
-                        <input type="hidden" name='Child_Classification_add_foundername' ref="Child_Classification_add_foundername" value="{{ Auth::user()->username }}">
-                    <!-- </form>        -->
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <label for="">子分類名稱</label>
+                        <input type="text" class="form-control" name="cls_name" ref="cls_name" id="cls_name" placeholder="" required >
+                        <small class="text-muted"> 請輸入子分類名稱 </small>    
+                    </div>
+                    <input type="hidden" name='cls_foundername' ref="cls_foundername" value="{{ Auth::user()->username }}">
                 </div>
                 <div class="modal-footer">
                     <!-- <button type="button" class="btn btn-secondary" @click="new_Child_Classification" data-dismiss="modal">關閉</button> -->
@@ -74,8 +72,8 @@
             <div class="theme_menu_title">
                 合併主題列表
             </div>
-            <div class="themename" v-for="item in theme_group_data" @click="click_theme_group(item.theme_name_json)">
-                <div class="themePaggingNamme" >@{{ item.name }}</div>
+            <div class="themename" v-for="item in theme_group_data" @click="click_theme_group(item.theme_group_unqid)">
+                <div class="themePaggingNamme" >@{{ item.theme_group_name }}</div>
                 <img class="themePaggingAdd" src="../resources/assets/image/icon/add.png" alt="">
             </div>
             
@@ -83,21 +81,13 @@
             <div class="theme_menu_title">
                 主題列表
             </div>
-            <?php
-                // foreach ($themes_my as $theme_my)
-                // {
-                //     echo '<div class="themename" id="'.$theme_my->unqid.'" name="'.$theme_my->themename.' ">' ;
-                //         echo '<div class="themePaggingNamme">'.$theme_my->themename.'</div>' ;
-                //         echo '<img class="themePaggingAdd" src="../resources/assets/image/icon/add.png" alt="">' ;
-                //     echo '</div>' ;   
-                // }
-            ?>
             <!-- 在左側列出所有主題 -->
             <div class="themename" v-for="item in themes_my" @click="add_to_bookmark(item.themename, item.unqid)"> 
                 <div class="themePaggingNamme ellipsis" :title="item.name">@{{ item.themename }}</div>
                 <img class="themePaggingAdd" src="../resources/assets/image/icon/add.png" alt="">
             </div>
-
+            <!-- 編輯所屬主題的分類 -->
+            <cls-value v-on:get="give_cls_c('<?php if(isset($themesname))echo $themesname ; ?>','<?php if(isset($themesnuqid))echo $themesnuqid ;?>')"></cls-value>       
         </div>
 
         <div class="classifications">
@@ -125,25 +115,29 @@
                     <!-- 列出父分類 -->
                     <div class="level" v-for="(item,index) in classification_names">
                         <div style="width:5%;" class="father_cls_checkedbox center">
-                                <input type="checkbox" v-model="father_checkedunqid" :value="item.unqid">
+                            <input type="checkbox" v-model="father_checkedunqid" :value="item.unqid">
                         </div>
                         <div class="preLevel">@{{ item.name }}</div>
 
                         <!-- 子分類及新增子分類功能 -->
                         <div class="childLevel-img">
-                                <!-- <button class="classification_btn" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Uunqid(item.unqid)">+</button> -->
-                                <img class="classification_btn" src="../resources/assets/image/icon/plus.png" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Uunqid(item.unqid)">
+                            <!-- <button class="classification_btn" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Uunqid(item.unqid)">+</button> -->
+                            <img class="classification_btn" src="../resources/assets/image/icon/plus.png" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Unqid(item.unqid)">
                         </div>
                         <div class="childLevelContainer">
                             <div class="childLevel center" v-for=" clsitem in childclassifications[index]">
-                                <div class="cls_name" :title="clsitem.name">
+                                <div v-show="edit_text==clsitem.unqid" class="cls_name" :title="clsitem.name">
+                                    <input type="text" @keyup.enter="edit_cls_c(clsitem.unqid)" v-model="cls_c_name" :value="clsitem.name">
+                                </div>
+                                <div v-show="edit_text!=clsitem.unqid" @dblclick="[edit_text=clsitem.unqid,cls_c_name=clsitem.name]" class="cls_name" :title="clsitem.name">
                                     @{{ clsitem.name }}
                                 </div>
+                                <!-- <button type="button"@click="clk">456</button> -->
                                 <div style="width:23%;" class="center">
-                                    <img class="child_classification_delete" @click="delete_child_cls(clsitem.unqid)"  src="../resources/assets/image/icon/forbidden-sign.png">
+                                    <img v-show="edit_text==clsitem.unqid" class="child_classification_delete" @click="edit_text=''"  src="../resources/assets/image/icon/forbidden-sign.png">
+                                    <img v-show="edit_text!=clsitem.unqid" class="child_classification_delete" @click="delete_child_cls(clsitem.unqid)"  src="../resources/assets/image/icon/forbidden-sign.png">
                                 </div>
                             </div>
-                            
                         </div>
                     </div>                    
                 </div>

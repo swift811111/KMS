@@ -68,7 +68,16 @@ header {
   cursor: pointer; }
 
 .ThemeContainer {
-  overflow: auto; }
+  overflow: auto;
+  padding: 0.15em 0.9em; }
+  .ThemeContainer select {
+    background-color: white; }
+  .ThemeContainer .appear_option_and_search_section,
+  .ThemeContainer .pagination_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 0; }
 
 .btn_theme_create,
 .delete_theme_group {
@@ -100,5 +109,39 @@ option {
   background-color: white; }
   option:hover {
     background-color: red; }
+
+table {
+  width: 100%;
+  border: 1px solid #EBEDEF; }
+  table tr:nth-child(odd) {
+    background-color: #eceeef; }
+  table th {
+    background-color: #F7F7F7; }
+  table td,
+  table th {
+    border: 1px solid #eceeef;
+    padding: .75rem; }
+
+.sorting_style:before {
+  right: 1em;
+  content: "\2191";
+  position: absolute;
+  bottom: 0.9em;
+  display: block;
+  opacity: 0.3; }
+
+.sorting_style:after {
+  right: 0.5em;
+  content: "\2193";
+  position: absolute;
+  bottom: 0.9em;
+  display: block;
+  opacity: 0.3; }
+
+.sorting_asc:before {
+  opacity: 1; }
+
+.sorting_desc:after {
+  opacity: 1; }
 
 /*# sourceMappingURL=theme_css.css.map */

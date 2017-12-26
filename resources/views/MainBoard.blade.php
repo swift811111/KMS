@@ -108,7 +108,7 @@
         </div>
         @if(Auth::check())
             <!-- 已登入的管理頁面 -->
-            <div class="manage_page form" id="exampleAccordion" data-children=".item">
+            <div class="manage_page" id="exampleAccordion" data-children=".item">
 
                 <div class="item">
                     <a data-toggle="collapse" data-parent="#exampleAccordion" href="#exampleAccordion2" aria-expanded="false" aria-controls="exampleAccordion2">              

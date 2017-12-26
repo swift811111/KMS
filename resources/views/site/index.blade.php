@@ -3,7 +3,7 @@
 
 <!-- text content -->
 <div class="content">
-    <p>個人資訊管理系統</p>
+    <p class="center_content">知識管理系統</p>
     <div class="bottom_line"></div>
 </div>
 

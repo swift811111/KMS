@@ -15,12 +15,10 @@ class CreateThemeGroupTable extends Migration
     {
         Schema::create('theme_group', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('foundername');
-            $table->string('foundername_unqid');
-            $table->string('theme_name')->nullable();
-            $table->json('theme_name_json')->nullable();
-            $table->string('unqid',50)->unique();
+            $table->string('username');
+            $table->string('user_unqid');
+            $table->string('theme_group_name');
+            $table->string('theme_group_unqid');
             $table->timestamps();
         });
     }

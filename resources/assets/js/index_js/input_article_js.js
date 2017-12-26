@@ -25,29 +25,36 @@ $(document).ready(function() {
     //設定兩個textarea的大小
     var input_group_width = $('.content').width() - 5;
     var input_group_height = $(window).height() - $(".menu").height() - $(".article_navbar_group").height() - $(".themeTitle").height() * 3 - $(".article_input_text_group").height() - 30;
-    var input_opinion_width = $('.content').width() - 5;
-    var input_opinion_height = $(window).height() - $(".menu").height() - $(".article_navbar_group").height() - $(".themeTitle").height() * 3 - 15;
     CKEDITOR.replace('article-ckeditor', {
         width: input_group_width,
         height: input_group_height,
     });
 
-    CKEDITOR.replace('opinion-ckeditor', {
-        width: input_opinion_width,
-        height: input_opinion_height,
-    });
-
 });
+
+Vue.component('cls-value', {
+    template: '<span class="none"></span>',
+    props: ['message'],
+    data: function() {
+        return {}
+    },
+    methods: {},
+    mounted: function() {
+        this.$emit('get');
+    },
+})
 
 var input_article = new Vue({
 
     el: '.content',
     data: {
 
-        show_content: true,
-        show_opinion: false,
-        show_cls: false,
-        navbar_color_name: "content_navbar",
+        show_side: {
+            show_content: true,
+            show_cls: false,
+        },
+
+        navbar_color_name: "show_content",
         navbar_color: "navbar_color",
 
         //----------------------------------------分類
@@ -70,28 +77,54 @@ var input_article = new Vue({
 
     },
     methods: {
+        //讓陣列不重複
+        onlyUnique: function(value, index, self) {
+            return self.indexOf(value) === index;
+        },
+        //將後端傳來的checkbox資料 讓前端顯示已勾選
+        give_cls_c: function(cls_data, theme_data) {
+            let self = this;
+            var match_theme_array = theme_data.match(/.{1,32}/g); //將字串以32個為一組分成陣列
+            var match_cls_array = cls_data.match(/.{1,64}/g); //將字串以64個為一組分成陣列
+            console.log('theme: ' + match_theme_array);
+            console.log(match_cls_array);
+            var unique_theme_array = match_theme_array.filter(this.onlyUnique);
+            console.log(' unique : ' + unique_theme_array);
+            //themematch_theme_array
+            self.fathername = match_theme_array[0];
+            unique_theme_array.forEach(function(value) {
+                axios.get('data/theme_data/' + value)
+                    .then(function(response) {
+                        console.log(response.data[0].themename);
+                        self.add_to_bookmark(response.data[0].themename, response.data[0].unqid);
+                    })
+                    .catch(function(response) {
+                        console.log("error");
+                    });
+            });
 
-        show_false: function() {
-            this.show_content = false;
-            this.show_opinion = false;
-            this.show_cls = false;
+            //將checkbox資料 放進checkbox陣列
+            var array = [];
+            match_cls_array.forEach(function(value) {
+                array.push(value);
+                self.cls_checkbox_array.push(array);
+                array = [];
+            });
+            console.log('match : ' + match_theme_array);
+            console.log(unique_theme_array);
+            console.log('子分類資料 : ');
+            console.log('cls_checkbox_array : ' + this.cls_checkbox_array);
         },
-        article_input_table_click: function() {
-            this.show_false();
-            this.navbar_color_name = 'content_navbar';
-            this.show_content = true;
-            console.log(this.navbar_color_name);
+        show_table: function(table_name) {
+            let self = this;
+            $.each(self.show_side, function(index, value) {
+                self.$set(self.show_side, index, false);
+                console.log(index);
+            });
+            this.$set(this.show_side, table_name, true);
+            this.navbar_color_name = table_name;
         },
-        opinion_table_click: function() {
-            this.show_false();
-            this.navbar_color_name = 'opinion_navbar';
-            this.show_opinion = true;
-        },
-        cls_table_click: function() {
-            this.show_false();
-            this.navbar_color_name = 'cls_navbar';
-            this.show_cls = true;
-        },
+
 
         //-----------------------------------分類
         //拿分類的資料
@@ -192,9 +225,6 @@ var input_article = new Vue({
                 console.log('no checked');
             }
         },
-        cls: function() {
-            console.log(this.cls_checkbox_item);
-        },
 
         //初始化左邊頁面的主題資料
         init: function() {
@@ -211,6 +241,7 @@ var input_article = new Vue({
     mounted: function() {
         this.init()
         this.get_theme_group_data()
+        console.log('test : ');
 
     },
     updated: function() {

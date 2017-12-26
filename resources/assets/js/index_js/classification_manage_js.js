@@ -6,6 +6,19 @@ $(document).ready(function() {
 
 });
 
+Vue.component('cls-value', {
+    template: '<span class="none"></span>',
+    props: ['message'],
+    data: function() {
+        return {}
+    },
+    methods: {},
+    mounted: function() {
+        this.$emit('get');
+    },
+})
+
+
 var classificationPagging = new Vue({
     el: '.content',
     data: {
@@ -27,55 +40,62 @@ var classificationPagging = new Vue({
 
         //子分類
         childclassifications: [],
-        Child_Classification_add_foundername: "",
+        cls_foundername: "",
         Child_Classification_add_unqid: "",
-        Child_Classification_add_name: "",
-        Father_Unqid: "",
+        cls_name: "",
+        father_unqid: "",
+        edit_text: "",
+        cls_c_name: "",
 
     },
     methods: {
         addpag: function() {
             this.range += 1;
         },
-
+        give_cls_c: function(name, unqid) {
+            this.add_to_bookmark(name, unqid);
+            console.log(name + ' ' + unqid);
+        },
         //拿分類的資料
         get_classification_data: function() {
-            let self = this;
-            axios.get('data/classification_data/' + self.fathername)
-                .then(function(response) {
-                    self.classification_names = response.data[0];
-                    self.childclassifications = response.data[1];
-                })
-                .catch(function(response) {
-                    console.log("error");
-                });
+            if (this.fathername != '') {
+                let self = this;
+                axios.get('data/classification_data/' + self.fathername)
+                    .then(function(response) {
+                        self.classification_names = response.data[0];
+                        self.childclassifications = response.data[1];
+                    })
+                    .catch(function(response) {
+                        console.log("error");
+                    });
+            }
         },
 
         //將分類加入頁籤並更新頁籤裡面的分類資料
         add_to_bookmark: function(name, unqid) {
 
-            let self = this;
+            if ((name && unqid) != "") {
+                let self = this;
 
-            //  find name index
-            var name_index = $.map(this.themes_bookmark, function(item, index) {
-                return item.name
-            }).indexOf(name);
+                //  find name index
+                var name_index = $.map(this.themes_bookmark, function(item, index) {
+                    return item.name
+                }).indexOf(name);
 
-            if (name_index >= 0) {
-                // alert('已經存在該項目');
-                this.fathername = unqid;
-                this.get_classification_data()
-            } else {
-                this.themes_bookmark.push({ name: name, unqid: unqid });
+                if (name_index >= 0) {
+                    // alert('已經存在該項目');
+                    this.fathername = unqid;
+                    this.get_classification_data()
+                } else {
+                    this.themes_bookmark.push({ name: name, unqid: unqid });
+                    this.fathername = unqid;
+                    //顯示分類
 
-                this.fathername = unqid;
-                //顯示分類
+                    this.get_classification_data()
 
-                this.get_classification_data()
-
-
-                if (this.themes_bookmark.length > 0) this.show = true;
-                else this.show = false;
+                    if (this.themes_bookmark.length > 0) this.show = true;
+                    else this.show = false;
+                }
             }
         },
         //更新頁籤裡面的分類資料
@@ -159,20 +179,20 @@ var classificationPagging = new Vue({
         },
 
         //新增子分類
-        Input_Father_Classification_Uunqid: function(unqid) {
-            this.Father_Unqid = unqid;
-            console.log(this.Father_Unqid);
+        Input_Father_Classification_Unqid: function(unqid) {
+            this.father_unqid = unqid;
+            console.log(this.father_unqid);
         },
         new_Child_Classification: function() {
             let self = this;
 
-            this.Child_Classification_add_name = this.$refs.Child_Classification_add_name.value;
-            this.Child_Classification_add_foundername = this.$refs.Child_Classification_add_foundername.value;
+            this.cls_name = this.$refs.cls_name.value;
+            this.cls_foundername = this.$refs.cls_foundername.value;
 
             axios.post('post/Child_Classification_add', {
-                    fathername: self.Father_Unqid,
-                    name: self.Child_Classification_add_name,
-                    foundername: self.Child_Classification_add_foundername,
+                    fathername: self.father_unqid,
+                    name: self.cls_name,
+                    foundername: self.cls_foundername,
                 })
                 .then(function(response) {
                     self.get_classification_data()
@@ -193,19 +213,57 @@ var classificationPagging = new Vue({
                         unqid: unqid,
                     })
                     .then(function(response) {
-                        self.get_classification_data()
+                        self.get_classification_data();
                     })
                     .catch(function(error) {
                         console.log(error);
                     });
             }
         },
-
+        //編輯子分類
+        clk: function() {
+            console.log(this.vm.$el.queryselector('.yuiyj').value);
+        },
+        edit_cls_c: function(unqid) {
+            console.log(this.cls_c_name);
+            this.edit_text = "";
+            let self = this;
+            axios.post('post/update_child_cls', {
+                    unqid: unqid,
+                    name: self.cls_c_name,
+                })
+                .then(function(response) {
+                    self.get_classification_data();
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
         //點擊群組
-        click_theme_group: function(theme_name_json) {
-            //取出資料 去空白和不必要的符號 放進array
-            var theme_name_array = theme_name_json.replace(/"|\[|\]/g, '').replace(/[ ]/g, "").trim().split(",");
-            console.log(theme_name_array);
+        click_theme_group: function(unqid) {
+            this.themes_bookmark = [];
+            this.classification_names = [];
+            this.childclassifications = [];
+            this.fathername = '';
+            let self = this;
+            axios.post('post/group_checkbox', {
+                    group_unqid: unqid,
+                })
+                .then(function(response) {
+                    console.log('group_checkbox : ' + response.data);
+                    response.data.forEach(function(value) {
+                        // self.add_to_bookmark(value.theme_name, value.theme_unqid);
+                        console.log('group_checkbox : ' + value.theme_name + " " + value.theme_unqid);
+                        self.fathername = value.theme_unqid;
+                        self.themes_bookmark.push({ name: value.theme_name, unqid: value.theme_unqid });
+                    });
+                    self.get_classification_data();
+                    if (self.themes_bookmark.length > 0) self.show = true;
+                    else self.show = false;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
 
         },
         //得到群組資料
@@ -220,7 +278,14 @@ var classificationPagging = new Vue({
                     console.log("error");
                 });
         },
-
+        sleep: function(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds) {
+                    break;
+                }
+            }
+        },
         //初始化左邊頁面的主題資料
         init: function() {
             let self = this;
@@ -233,9 +298,20 @@ var classificationPagging = new Vue({
                 });
         },
     },
+    watch: {
+        show_button: function() {
+            if (this.themes_bookmark.length > 0) this.show = true;
+            else this.show = false;
+        }
+    },
     mounted: function() {
         this.init()
         this.get_theme_group_data()
     },
+    destroyed: function() {
+        this.init()
+        this.get_theme_group_data()
+    }
+
 
 });

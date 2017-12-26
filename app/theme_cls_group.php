@@ -4,16 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class users extends Model
+class theme_cls_group extends Model
 {
-    protected $table = 'users' ;
+    protected $table = 'theme_cls_group' ;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'username', 'email', 'password','unqid',
+     protected $fillable = [
+        'username', 'user_unqid', 'theme_group_name','theme_group_unqid','theme_name','theme_unqid',
     ];
 
     /**
@@ -22,7 +22,7 @@ class users extends Model
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token','unqid',
+        'remember_token','theme_group_unqid','user_unqid'
     ];
 
 }

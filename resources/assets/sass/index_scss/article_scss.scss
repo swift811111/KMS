@@ -1,0 +1,128 @@
+@mixin size($h:auto, $w:auto) {
+    height: $h;
+    width: $w;
+}
+
+@mixin allCenter() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    background-image: url('../../image/bg/bg5.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    overflow: auto;
+}
+
+select {
+    width: 75px;
+    display: inline-block;
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    border-radius: .2rem;
+    border: 1px solid rgba(0, 0, 0, .15);
+    line-height: 1.25;
+    color: #464a4c;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+}
+
+option {
+    height: 1.8125rem;
+}
+
+.content {
+    height: auto;
+    left: 50px;
+    width: calc(100% - 100px);
+    overflow: auto;
+    background-color: #F7F7F7;
+}
+
+.article_table_container {
+    padding: 0.15em 0.9em;
+    .appear_option_and_search_section,
+    .pagination_container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5em 0;
+    }
+}
+
+table {
+    width: 100%;
+    border: 1px solid #EBEDEF;
+    tr {
+        &:nth-child(odd) {
+            background-color: #eceeef;
+        }
+    }
+    th {
+        background-color: #F7F7F7;
+    }
+    td,
+    th {
+        border: 1px solid #eceeef;
+        padding: .75rem;
+    }
+}
+
+//arrange style
+.sorting_style:before {
+    right: 1em;
+    content: "\2191";
+    position: absolute;
+    bottom: 0.9em;
+    display: block;
+    opacity: 0.3;
+}
+
+.sorting_style:after {
+    right: 0.5em;
+    content: "\2193";
+    position: absolute;
+    bottom: 0.9em;
+    display: block;
+    opacity: 0.3;
+}
+
+.sorting_asc:before {
+    opacity: 1;
+}
+
+.sorting_desc:after {
+    opacity: 1;
+}
+
+.article_title {
+    @include size(3em,
+    100%);
+    background-color: #41A99D;
+    @include allCenter();
+    color: #E2F2F0;
+}
+
+.article_features {
+    display: flex;
+    padding: 0.3em 0 0.3em 0.3em;
+    background-color: #3E3C3C;
+    margin-bottom: 0.3em;
+    .btn_article_create {
+        height: 2.5em;
+        font-size: 1em;
+        font-family: 'DFKai-sb', 'Open Sans', sans-serif;
+        background-color: #3E3C3C;
+        color: #BABABA;
+        border: 2px solid #BABABA;
+        border-radius: 10px;
+        cursor: pointer;
+        &:hover {
+            box-shadow: 0 0 4px 0 rgba(0, 0, 0, .1), 0 2px 8px 0 rgba(0, 0, 0, .2);
+            background-color: #1F1E1E;
+        }
+    }
+}

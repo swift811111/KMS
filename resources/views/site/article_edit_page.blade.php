@@ -4,7 +4,7 @@
 <!-- text content -->
 <div class="content">
     
-    <div class="themeTitle">新增文章</div>
+    <div class="themeTitle">編輯文章</div>
     <nav class="article_navbar_group">
 
         <div class="flex navbar_side">
@@ -13,7 +13,7 @@
             </div>
             <div class="article_navbar" :class="[(navbar_color_name == 'show_cls') ? navbar_color : null]" @click="show_table('show_cls')">
                 分類
-            </div>    
+            </div>     
         </div>
 
         <div class="flex">
@@ -21,21 +21,22 @@
             <input type="button" class="cursor article_input_btn" value="送出文章">
         </div>
     </nav>
-    <!-- 輸入表格 -->
-    <form class="article_input_form" action="{{ route('create_article.create') }}" method="post">
+    <!-- 輸入表格{{ route('update_article.update') }} -->
+    <form class="article_input_form" action="{{ route('update_article.update') }}" method="post">
     {{ csrf_field() }}
+        <!-- 文章內容group -->
         <div class="article_input_table" v-show="show_side.show_content">
 
             <div class="article_input_text_group">
                 <div>
                     <div class="article_input_group">
                         <label for="article_title" class="label_text">標題 :</label>
-                        <input type="text" name="article_title" class="article_title">
+                        <input type="text" name="article_title" class="article_title" value="<?= $article_title ?>">
                     </div>
 
                     <div class="article_input_group">
                         <label for="article_author" class="label_text">作者 :</label>
-                        <input type="text" name="article_author" class="article_author" disabled value="{{Auth::user()->username}}">
+                        <input type="text" name="article_author" class="article_author" disabled value="<?= $article_author ?>">
                     </div>
                     <div class="article_input_group">
                         <label for="article_date" class="label_text" >日期 :</label>
@@ -46,18 +47,24 @@
                 <div>
                     <div class="article_input_group">
                         <label for="article_source" class="label_text">來源 :</label>
-                        <input type="text" name="article_source" class="article_source">
+                        <input type="text" name="article_source" class="article_source" value="<?= $article_source ?>">
                     </div>
 
                     <div class="article_input_group">
                         <label for="article_summary" class="label_text">摘要 :</label>
-                        <input type="text" name="article_summary" class="article_summary">
+                        <input type="text" name="article_summary" class="article_summary" value="<?= $article_summary ?>">
                     </div>
+                    <div class="article_input_group">
+                        <label for="article_editor" class="label_text">編者 :</label>
+                        <input type="text" name="article_editor" class="article_editor" value="{{Auth::user()->username}}">
+                    </div>
+                    <!-- article_unqid -->
+                    <input type="text" name="article_unqid" class="article_unqid none" value="<?= $article_unqid ?>">
+                    <cls-value v-on:get="give_cls_c('<?= $cls_c_unqid_array  ?>','<?= $theme_unqid_array  ?>')"></cls-value>
                 </div>
             </div>
-            
             <!-- textarea -->
-            <textarea id="article-ckeditor" name="article_textarea"></textarea>
+            <textarea id="article-ckeditor" name="article_textarea"><?= $article_textarea ?></textarea>
                 
         </div>
 
@@ -90,7 +97,7 @@
 
                 <div class="classifications">
                     
-                    <!-- 顯示以點選的主題頁籤 -->
+                    <!-- 顯示已點選的主題頁籤 -->
                     <div class="classifications_title" id="classifications_title">
                         <div v-for="(item,index) in themes_bookmark"  :id="item.unqid" :class="[(fathername == item.unqid) ? bookmark_color : null]" class="ThemePageTitle cursor" >
                             <div class="ellipsis" @click="bookmark_click(item.unqid)" :title="item.name">
@@ -114,7 +121,7 @@
                                 <div class="childLevelContainer">
                                     <div class="childLevel center cursor" v-for=" clsitem in childclassifications[index]"  @click="click_childcls(item.name,clsitem.name)">
                                         <div class="cls_name" :title="clsitem.name">
-                                            <input type="checkbox" class="cls_checkbox" v-model="cls_checkbox_array" name="cls_checkbox[]" :value="[item.unqid+clsitem.unqid]">
+                                            <input type="checkbox" class="cls_checkbox" v-model.trim="cls_checkbox_array" name="cls_checkbox[]" :value="[item.unqid+clsitem.unqid]">
                                             @{{ clsitem.name }}
                                         </div>
                                     </div>
