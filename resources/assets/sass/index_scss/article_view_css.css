@@ -13,7 +13,7 @@ img.icon {
   width: 2em; }
 
 .content {
-  background-color: #FFFCD7; }
+  background-color: #fffef4; }
   .content .article_title {
     justify-content: space-between;
     position: fixed;
@@ -34,15 +34,15 @@ img.icon {
           box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.2);
           background-color: #1F1E1E; }
   .content .text_group {
-    padding: 4em 1em 0 1em; }
+    padding: 4em 5em 0 5em; }
   .content .article_content {
     padding: 1em 1em;
     background-color: white;
-    margin: 1em;
+    margin: 1em 5em;
     border: 1px solid #cecccc;
     border-radius: 0.2em; }
   .content .opinion .show_comments {
-    padding: 4em 1em 2em 3em;
+    padding: 4em 1em 18em 3em;
     min-height: 8em;
     height: auto;
     width: 100%; }
@@ -74,7 +74,7 @@ img.icon {
     height: auto;
     width: 93%; }
     .content .opinion .comments textarea {
-      height: 15em;
+      height: 12em;
       width: 100%; }
   .content .opinion .comments_btn {
     position: fixed;
@@ -88,5 +88,9 @@ img.icon {
 img.user_data_icon {
   height: 1.5em;
   width: 1.5em; }
+
+img.date_icon {
+  height: 1.3em;
+  width: 1.3em; }
 
 /*# sourceMappingURL=article_view_css.css.map */

@@ -35,7 +35,7 @@ body {
 .content {
     left: 50px;
     width: calc(100% - 100px);
-    background-color: #FFFCD7;
+    background-color: rgb(255, 254, 244);
     .themeTitle {
         @include size(3em,
         100%);
@@ -47,7 +47,7 @@ body {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background-color: #F7F7F7;
+        background-color: #FFFCD7;
         line-height: 28px;
         .article_navbar {
             @include size(100%,
@@ -94,5 +94,5 @@ body {
 }
 
 .navbar_color {
-    background-color: #FFFCD7;
+    background-color: rgb(255, 254, 244);
 }

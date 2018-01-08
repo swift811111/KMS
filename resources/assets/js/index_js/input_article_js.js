@@ -9,7 +9,7 @@ $(document).ready(function() {
 
     //內容大小
     $('.classification_container').css("height", $('.content').height() - $('.article_navbar_group').height() * 3 + 10);
-    $('.classifications_content').css("height", $('.classification_container').height() - $('.classifications_title').height() - 50);
+    $('.classifications_content').css("height", $('.classification_container').height() - $('.classifications_title').height() - 52);
     $('.theme_menu').css("height", $('.classifications_content').height() + 50);
 
     //使選擇的checkbox變色
@@ -198,10 +198,30 @@ var input_article = new Vue({
         },
 
         //點擊群組
-        click_theme_group: function(theme_name_json) {
-            //取出資料 去空白和不必要的符號 放進array
-            var theme_name_array = theme_name_json.replace(/"|\[|\]/g, '').replace(/[ ]/g, "").trim().split(",");
-            console.log(theme_name_array);
+        click_theme_group: function(unqid) {
+            this.themes_bookmark = [];
+            this.classification_names = [];
+            this.childclassifications = [];
+            this.fathername = '';
+            let self = this;
+            axios.post('post/group_checkbox', {
+                    group_unqid: unqid,
+                })
+                .then(function(response) {
+                    console.log('group_checkbox : ' + response.data);
+                    response.data.forEach(function(value) {
+                        // self.add_to_bookmark(value.theme_name, value.theme_unqid);
+                        console.log('group_checkbox : ' + value.theme_name + " " + value.theme_unqid);
+                        self.fathername = value.theme_unqid;
+                        self.themes_bookmark.push({ name: value.theme_name, unqid: value.theme_unqid });
+                    });
+                    self.get_classification_data();
+                    if (self.themes_bookmark.length > 0) self.show = true;
+                    else self.show = false;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
 
         },
         //得到群組資料
@@ -236,11 +256,12 @@ var input_article = new Vue({
                 .catch(function(response) {
                     console.log(error);
                 });
+
+            this.get_theme_group_data();
         },
     },
     mounted: function() {
-        this.init()
-        this.get_theme_group_data()
+        this.init();
         console.log('test : ');
 
     },

@@ -70,7 +70,7 @@ body {
       .classification_container .classifications .classifications_content .classifications_content_page {
         height: 100%;
         width: 100%;
-        background-color: #FFFCD7; }
+        background-color: #fffef4; }
         .classification_container .classifications .classifications_content .classifications_content_page .classification_btn_group .classification_btn {
           height: 2em;
           width: 6em;
@@ -80,6 +80,7 @@ body {
           border-radius: 10px; }
         .classification_container .classifications .classifications_content .classifications_content_page .level {
           min-height: 2em;
+          box-shadow: 0px 1px 1px 1px rgba(51, 51, 102, 0.3), -1px -1px 1px 1px rgba(51, 51, 102, 0.1);
           height: auto;
           width: 100%;
           display: flex;
@@ -167,6 +168,6 @@ img.classification_btn {
   cursor: pointer; }
 
 .bookmark_color {
-  background-color: #FFFCD7; }
+  background-color: #fffef4; }
 
 /*# sourceMappingURL=classification_manage_css.css.map */

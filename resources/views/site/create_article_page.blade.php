@@ -71,8 +71,8 @@
                     <div class="theme_menu_title">
                         合併主題列表
                     </div>
-                    <div class="themename" v-for="item in theme_group_data" @click="click_theme_group(item.theme_name_json)">
-                        <div class="themePaggingNamme" >@{{ item.name }}</div>
+                    <div class="themename" v-for="item in theme_group_data" @click="click_theme_group(item.theme_group_unqid)">
+                        <div class="themePaggingNamme" >@{{ item.theme_group_name }}</div>
                         <img class="themePaggingAdd" src="../resources/assets/image/icon/add.png" alt="">
                     </div>
                     
@@ -114,8 +114,8 @@
                                 <div class="childLevelContainer">
                                     <div class="childLevel center cursor" v-for=" clsitem in childclassifications[index]"  @click="click_childcls(item.name,clsitem.name)">
                                         <div class="cls_name" :title="clsitem.name">
-                                            <input type="checkbox" class="cls_checkbox" v-model="cls_checkbox_array" name="cls_checkbox[]" :value="[item.unqid+clsitem.unqid]">
-                                            @{{ clsitem.name }}
+                                            <input type="checkbox" class="cls_checkbox" :id="clsitem.unqid" v-model="cls_checkbox_array" name="cls_checkbox[]" :value="[item.unqid+clsitem.unqid]">
+                                            <label class="cursor" :for="clsitem.unqid">@{{ clsitem.name }}</label>
                                         </div>
                                     </div>
                                 </div>

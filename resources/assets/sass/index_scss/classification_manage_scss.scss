@@ -89,7 +89,7 @@ body {
             .classifications_content_page {
                 height: 100%;
                 width: 100%;
-                background-color: #FFFCD7;
+                background-color: rgb(255, 254, 244); // background-color: white;
                 .classification_btn_group {
                     .classification_btn {
                         @include size(2em,
@@ -101,7 +101,8 @@ body {
                     }
                 }
                 .level {
-                    min-height: 2em;
+                    min-height: 2em; // border: 0.5px solid rgb(221, 221, 221);
+                    box-shadow: 0px 1px 1px 1px rgba(20%, 20%, 40%, 0.3), -1px -1px 1px 1px rgba(20%, 20%, 40%, 0.1);
                     @include size(auto,
                     100%);
                     @include allcenter();
@@ -208,5 +209,6 @@ img.classification_btn {
 }
 
 .bookmark_color {
-    background-color: #FFFCD7;
+    background-color: rgb(255, 254, 244);
+    ;
 }

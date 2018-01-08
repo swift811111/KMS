@@ -34,7 +34,7 @@
                     <span>作者 : </span><?= $article_data[0]->article_author ?>
                 </div>       
                 <div class="created_at text_style">
-                    <span><img class="icon" src="../resources/assets/image/icon/date.png" alt=""></span><?= $article_data[0]->created_at ?>
+                    <span><img class="date_icon" src="../resources/assets/image/icon/date.png" alt=""></span><?= $article_data[0]->created_at ?>
                 </div>
             </div>
         </div>

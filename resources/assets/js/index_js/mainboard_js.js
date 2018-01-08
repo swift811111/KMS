@@ -51,7 +51,9 @@ $(document).ready(function() {
         $("#SignForm").submit();
     });
 
-
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('[autofocus]').focus();
+    });
 
 });
 

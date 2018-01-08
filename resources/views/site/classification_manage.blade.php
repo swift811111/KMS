@@ -21,7 +21,7 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="">分類名稱</label>
-                            <input type="text" class="form-control" name="classification_name" ref="classification_name" id="classification_name" placeholder="" required >
+                            <input type="text" autofocus class="form-control" name="classification_name" ref="classification_name" id="classification_name" @keyup.enter="enter_to_new_cls('cls_f')" required >
                             <small class="text-muted"> 請輸入分類名稱 </small>    
                         </div>
                         <input type="hidden" name='classification_foundername' ref="classification_foundername" value="{{ Auth::user()->username }}">
@@ -51,7 +51,7 @@
                     {{ csrf_field() }}
                     <div class="form-group">
                         <label for="">子分類名稱</label>
-                        <input type="text" class="form-control" name="cls_name" ref="cls_name" id="cls_name" placeholder="" required >
+                        <input type="text" class="form-control" autofocus name="cls_name" ref="cls_name" id="cls_name" @keyup.enter="enter_to_new_cls('cls_c')" required >
                         <small class="text-muted"> 請輸入子分類名稱 </small>    
                     </div>
                     <input type="hidden" name='cls_foundername' ref="cls_foundername" value="{{ Auth::user()->username }}">

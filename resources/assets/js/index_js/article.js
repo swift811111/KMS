@@ -8,7 +8,7 @@ var article = new Vue({
     el: '.content',
     data: {
         article_data: [],
-        perpage: 3, //每頁要顯示幾筆資料
+        perpage: 5, //每頁要顯示幾筆資料
         current_page: 1, //現在在第幾頁
         disabled: "disabled",
         active: "active",

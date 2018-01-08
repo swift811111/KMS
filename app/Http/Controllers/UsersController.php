@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\users , App\themes , App\classification ,App\childclassification,App\theme_group,App\create_article,
     App\search_association,App\opinion,App\theme_cls_group;
 use Illuminate\Support\Facades\View;
@@ -685,6 +686,11 @@ class UsersController extends Controller
             ->where('foundername_unqid', Auth::user()->unqid)
             ->where('unqid', $unqid)
             ->get();
+
+        //decode
+        foreach ($themes_unqid as &$value) {
+        $value->themename = urldecode($value->themename) ;
+        }
         //return response()->json(['themes_my' => $themes_my]) ;
         return response()->json($themes_unqid);
     }
@@ -702,6 +708,8 @@ class UsersController extends Controller
         foreach ($themes_unqid as &$value) {
            $value->themename = urldecode($value->themename) ;
         }
+        // $expiresAt = Carbon::now()->addMinutes(10);
+        // Cache::add('themes_unqid', $themes_unqid, $expiresAt);
         //return response()->json(['themes_my' => $themes_my]) ;
         return $themes_unqid;
     }

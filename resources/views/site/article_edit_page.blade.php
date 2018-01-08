@@ -18,7 +18,8 @@
 
         <div class="flex">
             <input type="button" class="cursor article_cancel_btn" onclick="window.location='{{ url("article_manage") }}'" value="取消">
-            <input type="button" class="cursor article_input_btn" value="送出文章">
+            <input type="button" class="cursor article_input_btn" value="完成修改">
+            <input type="button" class="cursor article_input_btn" value="另存成新文章">
         </div>
     </nav>
     <!-- 輸入表格{{ route('update_article.update') }} -->
@@ -78,8 +79,8 @@
                     <div class="theme_menu_title">
                         合併主題列表
                     </div>
-                    <div class="themename" v-for="item in theme_group_data" @click="click_theme_group(item.theme_name_json)">
-                        <div class="themePaggingNamme" >@{{ item.name }}</div>
+                    <div class="themename" v-for="item in theme_group_data" @click="click_theme_group(item.theme_group_unqid)">
+                        <div class="themePaggingNamme" >@{{ item.theme_group_name }}</div>
                         <img class="themePaggingAdd" src="../resources/assets/image/icon/add.png" alt="">
                     </div>
                     

@@ -366,6 +366,5 @@ var theme_group = new Vue({
     mounted: function() {
         //先載入主題管理的第一頁資料
         this.get_theme_perpage_data(this.theme_various);
-
     },
 });

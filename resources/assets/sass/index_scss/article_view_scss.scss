@@ -26,7 +26,7 @@ img.icon {
 }
 
 .content {
-    background-color: #FFFCD7;
+    background-color: rgb(255, 254, 244);
     .article_title {
         justify-content: space-between;
         position: fixed;
@@ -51,18 +51,18 @@ img.icon {
         }
     }
     .text_group {
-        padding: 4em 1em 0 1em;
+        padding: 4em 5em 0 5em;
     }
     .article_content {
         padding: 1em 1em;
         background-color: white;
-        margin: 1em;
+        margin: 1em 5em;
         border: 1px solid rgb(206, 204, 204);
         border-radius: 0.2em;
     }
     .opinion {
         .show_comments {
-            padding: 4em 1em 2em 3em;
+            padding: 4em 1em 18em 3em;
             min-height: 8em;
             @include size(auto, 100%);
             .comments_block {
@@ -100,7 +100,7 @@ img.icon {
             bottom: 2.3em;
             @include size(auto, 93%);
             textarea {
-                @include size(15em, 100%);
+                @include size(12em, 100%);
             }
         }
         .comments_btn {
@@ -117,4 +117,8 @@ img.icon {
 //image icon
 img.user_data_icon {
     @include size(1.5em, 1.5em);
+}
+
+img.date_icon {
+    @include size(1.3em, 1.3em);
 }

@@ -152,6 +152,16 @@ var classificationPagging = new Vue({
                     console.log(error);
                 });
         },
+        enter_to_new_cls: function(type) {
+            if (type == 'cls_f') {
+                $('#classification_create_btn').click();
+                this.new_classification();
+            } else {
+                $('#Child_Classification_create_btn').click();
+                this.new_Child_Classification();
+            }
+
+        },
         //刪除父分類
         delete_father_cls: function() {
             console.log(this.father_checkedunqid);
@@ -296,6 +306,8 @@ var classificationPagging = new Vue({
                 .catch(function(response) {
                     console.log(error);
                 });
+
+            this.get_theme_group_data();
         },
     },
     watch: {
@@ -305,12 +317,11 @@ var classificationPagging = new Vue({
         }
     },
     mounted: function() {
-        this.init()
-        this.get_theme_group_data()
+        this.init();
+
     },
     destroyed: function() {
-        this.init()
-        this.get_theme_group_data()
+        this.init();
     }
 
 

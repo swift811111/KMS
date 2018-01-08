@@ -16,9 +16,9 @@
             <div class="appear_option">
                 <label for="">顯示</label> 
                 <select v-model="perpage" v-on:change="onchange">
-                    <option value="1">10</option>
-                    <option value="2">15</option>
-                    <option value="3">20</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
                 </select>
                 <label for="">資料</label>
             </div>
