@@ -68,7 +68,7 @@
     <div class="classification_container">
         <div class="theme_menu">
 
-            <!-- 測試用 合併主題列表區-->
+            <!--合併主題列表區-->
             <div class="theme_menu_title">
                 合併主題列表
             </div>
@@ -94,36 +94,41 @@
             
             <!-- 顯示以點選的主題頁籤 -->
             <div class="classifications_title" id="classifications_title">
-                <div v-for="(item,index) in themes_bookmark"  :id="item.unqid" :class="[(fathername == item.unqid) ? bookmark_color : null]" class="ThemePageTitle cursor" >
+                <div v-for="(item,index) in themes_bookmark"  :id="item.unqid"  class="ThemePageTitle cursor" :class="[(fathername == item.unqid) ? bookmark_color : bookmark_color_orgin]" >
                     <div class="ellipsis" @click="bookmark_click(item.unqid)" :title="item.name">
                         @{{ item.name }}
                     </div>
                     <img class="themes_bookmark_cancel" @click="remove_from_bookmark(item)" src="../resources/assets/image/icon/cancel.png" alt="">
                 </div>
             </div>
-
+            <!-- 新增 & 刪除 父分類按鈕 -->
+            <div class="classification_btn_group" v-show="show">
+                <img class="icon_add cursor"  data-toggle="modal" data-target="#ClassificationCreate" >
+                <img class="icon_delete cursor"  @click="delete_father_cls" >
+                <!-- <button class="classification_btn" data-toggle="modal" data-target="#ClassificationCreate">新增分類</button> -->
+                <!-- <button class="classification_btn" @click="delete_father_cls">刪除分類</button> -->
+            </div>
             <!-- 各個主題頁籤裡面的內容 -->
-            <div class="classifications_content">
-                <div class="classifications_content_page">
-                    
-                    <!-- 新增父分類按鈕 -->
-                    <div class="classification_btn_group" v-show="show">
-                        <button class="classification_btn" data-toggle="modal" data-target="#ClassificationCreate">新增分類</button>
-                        <button class="classification_btn" @click="delete_father_cls">刪除分類</button>
-                    </div>
-
+            <div class="classifications_content">        
+                <div class="classifications_content_page"> 
                     <!-- 列出父分類 -->
                     <div class="level" v-for="(item,index) in classification_names">
-                        <div style="width:5%;" class="father_cls_checkedbox center">
-                            <input type="checkbox" v-model="father_checkedunqid" :value="item.unqid">
+                    <!-- background-color: rgba(189, 189, 189, 0.3); -->
+                        <div class="center" style="padding:0 0.3em;border-bottom: 1px solid rgba(189, 189, 189, 0.5);width:100%;">
+                            <!--  checkbox  -->
+                            <div style="width:5%;" class="father_cls_checkedbox center">
+                                <input type="checkbox" :id="item.unqid" v-model="father_checkedunqid" :value="item.unqid">
+                            </div>
+                            <!--  父標題  -->
+                            <div class="preLevel"><label class="cursor center ellipsis" :for="item.unqid" style="margin-bottom:0;">@{{ item.name }}</label></div>
+                            <!-- 子分類及新增子分類功能 -->
+                            <!--  新增子分類按鈕 -->
+                            <div class="childLevel-img">
+                                <img class="classification_btn" src="../resources/assets/image/icon/plus.png" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Unqid(item.unqid)">
+                            </div>
                         </div>
-                        <div class="preLevel">@{{ item.name }}</div>
 
-                        <!-- 子分類及新增子分類功能 -->
-                        <div class="childLevel-img">
-                            <!-- <button class="classification_btn" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Uunqid(item.unqid)">+</button> -->
-                            <img class="classification_btn" src="../resources/assets/image/icon/plus.png" data-toggle="modal" data-target="#Child_Classification_Add" @click="Input_Father_Classification_Unqid(item.unqid)">
-                        </div>
+                        <!--  列出子分類  -->
                         <div class="childLevelContainer">
                             <div class="childLevel center" v-for=" clsitem in childclassifications[index]">
                                 <div v-show="edit_text==clsitem.unqid" class="cls_name" :title="clsitem.name">

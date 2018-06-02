@@ -30,6 +30,12 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::get('/theme_manage', 'UsersController@theme_manage');
     Route::get('/logout', 'UsersController@logout');
+
+    //搜尋
+    Route::get('/search',[  
+        'as' => 'search.view',
+        'uses' => 'UsersController@search_view'
+    ]);
     
     //管理頁面
     Route::get('/classification_manage', 'UsersController@classification_manage');//分類管理頁面
@@ -99,6 +105,10 @@ Route::group(['middleware'=>'auth'],function(){
         'as' => 'create_new_opinion.create',
         'uses' => 'UsersController@create_new_opinion'
     ]);
+    Route::post('/data/search',[  //搜尋
+        'as' => 'search.view',
+        'uses' => 'UsersController@search_submit'
+    ]);
 
 
     //get data
@@ -112,5 +122,6 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/data/article_data/{perpage}/{page}/{column}/{arrangement}', 'UsersController@article_data');  //拿到特定頁文章資料
     Route::get('/data/article_all_data', 'UsersController@article_all_data');  //拿到所有文章資料
     Route::get('/data/get_opinion_data/{article_unqid}', 'UsersController@get_opinion_data');  //拿到某篇文章的意見資料
+    //Route::get('/data/search/{perpage}/{page}/{column}/{arrangement}', 'UsersController@search_submit');  //搜尋時顯示的頁面
     
 });

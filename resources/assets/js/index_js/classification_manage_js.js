@@ -1,8 +1,12 @@
 $(document).ready(function() {
     $("body").show();
     $('.classification_container').css("height", $('.content').height() - 1);
-    $('.classifications_content').css("height", $('.classifications').height() - $('.classifications_title').height());
-    $('.theme_menu').css("height", $('.classifications').height());
+    // $('.classifications_content').css("height", $('.classifications').height() - $('.ThemePageTitle').height() - $('.classification_btn_group').height() * 3 + 5);
+    // $('.theme_menu').css("height", $('.classifications_content').height());
+    $.when($('.classifications_content').css("height", $('.classifications').height() - $('.ThemePageTitle').height() - $('.classification_btn_group').height() * 3 + 5))
+        .done(function() {
+            $('.theme_menu').css("height", $('.classifications').height());
+        });
 
 });
 
@@ -24,6 +28,7 @@ var classificationPagging = new Vue({
     data: {
         red: "red",
         bookmark_color: "bookmark_color",
+        bookmark_color_orgin: "bookmark_color_orgin",
 
         themes_my: [], //主題列表
         themes_bookmark: [], //檢視是否存在重複的主題頁籤
@@ -101,7 +106,8 @@ var classificationPagging = new Vue({
         //更新頁籤裡面的分類資料
         bookmark_click: function(unqid) {
             this.fathername = unqid;
-            this.get_classification_data()
+            this.get_classification_data();
+
         },
 
         //將頁籤移除 並檢查頁籤的位子 決定要顯示哪個頁籤的分類資料

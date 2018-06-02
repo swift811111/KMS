@@ -206,6 +206,9 @@ header {
     margin-left: 1.5em;
     transition: margin-left 0.8s; }
 
+.content {
+  width: 100%; }
+
 .center_content {
   font-size: 27px;
   margin-top: -50px; }

@@ -1,0 +1,21 @@
+.All_container {
+  height: 100%;
+  width: 100%;
+  background-color: white; }
+  .All_container .All_Title {
+    height: 3em;
+    width: 100%;
+    background-color: #41A99D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E2F2F0; }
+  .All_container .All_body {
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white; }
+
+/*# sourceMappingURL=search_css.css.map */

@@ -801,4 +801,26 @@ class UsersController extends Controller
         return response()->json($article_all_data);
     }
 
+    //搜尋
+    public function search_submit(Request $request){
+        $search_value = $request->search_text ;
+        $column = $request->data_arrange_method_colum ;
+        $arrangement = $request->data_arrange_method_arrangement; 
+        $perpage = $request->perpage;
+        $page = $request->page;
+
+        $article_data = DB::table('article')
+            ->where('author_unqid', Auth::user()->unqid)
+            ->where('article_title','like', '%'.$search_value.'%')
+            ->orWhere('article_content','like', '%'.$search_value.'%')
+            ->orderBy($column,$arrangement)
+            ->skip($perpage*($page-1))
+            ->take($perpage)
+            ->get();
+
+        // return response()->json($article_data);
+
+         return response()->json($article_data);
+    }
+
 }

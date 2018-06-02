@@ -1,0 +1,27 @@
+@mixin allcenter() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin size($h:auto, $w:auto) {
+    height: $h;
+    width: $w;
+}
+
+.All_container {
+    @include size(100%, 100%);
+    background-color: white;
+    .All_Title {
+        @include size(3em, 100%);
+        background-color: #41A99D;
+        @include allcenter();
+        color: #E2F2F0;
+    }
+    .All_body {
+        border: 1px solid red;
+        @include allcenter();
+        flex-direction: column;
+        background-color: white;
+    }
+}

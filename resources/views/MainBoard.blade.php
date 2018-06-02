@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" >
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css">
     <script src="https://unpkg.com/vue"></script>
-    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   
   <body>
@@ -139,14 +139,6 @@
                             <div class="manage_child center">文章管理</div>
                         </div>
                     </div>
-                </div>
-
-                <div class="item">
-                    <a data-toggle="collapse" data-parent="#exampleAccordion" href="#exampleAccordion2" aria-expanded="false" aria-controls="exampleAccordion2">                        
-                        <div class="collapse_title">
-                            搜尋
-                        </div>
-                    </a>
                 </div>
                 
             </div>

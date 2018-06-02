@@ -19,6 +19,13 @@ var article = new Vue({
         page_end: 10,
         article_delete_array: [],
 
+        //跟search相關的變數
+        search_item: {
+            article_type: false,
+            tag_type: false,
+            search_text: '',
+        },
+
         //排列的css style
         arrange_style: {
             article_id: 'sorting_desc',
@@ -46,7 +53,11 @@ var article = new Vue({
         get_article_data: function() { //依據每頁要顯示幾筆 還有第幾頁來拿資料
 
             let self = this;
-            axios.get('data/article_data/' + self.perpage + "/" + self.current_page + "/" + self.data_arrange_method.column + "/" + self.data_arrange_method.arrangement)
+            axios.get('data/article_data/' +
+                    self.perpage + "/" +
+                    self.current_page + "/" +
+                    self.data_arrange_method.column + "/" +
+                    self.data_arrange_method.arrangement)
                 .then(function(response) {
                     self.article_data = response.data;
                     self.page_star_to_end();
@@ -184,6 +195,32 @@ var article = new Vue({
             } else if (arrange_value == 'DESC') {
                 this.set_arrange_data(arrange_name, 'ASC', 'sorting_asc');
             }
+
+        },
+
+        //search --------------------------------------------------
+        search_submit: function() {
+            var search_type = '';
+            if (this.search_item.article_type == true) search_type = 'article_type';
+            else search_type = 'tag_type';
+
+            let self = this;
+            axios.post('data/search', {
+                    search_text: self.search_item.search_text,
+                    perpage: self.perpage,
+                    page: self.current_page,
+                    data_arrange_method_colum: self.data_arrange_method.column,
+                    data_arrange_method_arrangement: self.data_arrange_method.arrangement,
+                })
+                .then(function(response) {
+                    console.log(response.data);
+                    self.article_data = response.data;
+                    // self.page_star_to_end();
+                    // self.get_all_pages();
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
 
         },
     },

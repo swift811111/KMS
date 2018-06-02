@@ -26,8 +26,8 @@ header {
 
 .content {
     height: auto;
-    left: 50px;
-    width: calc(100% - 100px);
+    // left: 50px;
+    // width: calc(100% - 100px);
     overflow: auto;
     .themeTitle {
         @include size(3em,
@@ -107,6 +107,42 @@ header {
         justify-content: space-between;
         align-items: center;
         padding: 0.5em 0;
+    }
+    .theme_container {
+        position: relative;
+        display: flex;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        overflow: auto;
+        @include size(85%,
+        100%);
+        max-height: auto;
+        .theme_square {
+            @include size(25%,
+            15%);
+            @include allCenter();
+            flex-direction: column;
+            margin: 1% 0.8%;
+            border: 1.5px solid rgba(189, 189, 189, 0.5);
+            border-radius: 10%;
+            transition: all 0.3s;
+            &:hover {
+                box-shadow: 0px 1px 1px 1px rgba(20%, 20%, 40%, 0.3), -1px -1px 1px 1px rgba(20%, 20%, 40%, 0.1);
+                background-color: rgba(82, 188, 160, 0.7);
+                color: white;
+            }
+            .theme_square_fnc {
+                @include size(auto,
+                100%);
+                display: flex;
+                justify-content: flex-end;
+                flex-direction: row;
+                padding-right: 0.5em;
+            }
+            .theme_square_name {
+                font-size: 2em;
+            }
+        }
     }
 }
 

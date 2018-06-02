@@ -23,8 +23,9 @@
                 <label for="">資料</label>
             </div>
             <div class="search">
-                <label for="">搜尋</label>
-                <input style="border: 1px solid rgba(0,0,0,.15);font-size: .875rem;border-radius: .2rem;padding: .25rem .5rem;" type="text" name="" id="">
+                <!-- <label for="">搜尋</label> -->
+                <input style="border: 1px solid rgba(0,0,0,.15);font-size: .875rem;border-radius: .2rem;padding: .25rem .5rem;" type="text" v-model="search_item.search_text">
+                <input type="button" class="cursor btn btn-light" @click="search_submit" value="搜尋">
             </div>
         </div>
         <table>

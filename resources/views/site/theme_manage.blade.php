@@ -128,13 +128,14 @@
             <!-- 列出所有主題資料 -->
             <div class="ThemeContainer" v-if="theme_various == 'theme'">
                 {{ csrf_field() }}
+                <!-- 顯示幾筆與搜尋 -->
                 <div class="appear_option_and_search_section">
                     <div class="appear_option">
                         <label for="">顯示</label> 
                         <select v-model="perpage" v-on:change="onchange">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
                             <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
                         </select>
                         <label for="">資料</label>
                     </div>
@@ -143,58 +144,32 @@
                         <input style="border: 1px solid rgba(0,0,0,.15);font-size: .875rem;border-radius: .2rem;padding: .25rem .5rem;" type="text" name="" id="">
                     </div>
                 </div>
-
-                <table id="ThemeTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>
-                                <input type="checkbox" v-model="checkbox_all" name="" id="">
-                                <div class="cursor" @click="select_all" style="position:absolute;left:0;top:0;width:100%;height:100%;background-color:rgba(255,255,255,0);"></div>
-                            </th>
-                            <th class="sorting_style cursor" :class="[arrange_style.id]" @click="arrange_data('id',arrange_title.id)">ID</th>
-                            <th class="sorting_style cursor" :class="[arrange_style.themename]" @click="arrange_data('themename',arrange_title.themename)">主題名稱</th>
-                            <th class="sorting_style cursor" :class="[arrange_style.foundername]" @click="arrange_data('foundername',arrange_title.foundername)">作者</th>
-                            <th class="sorting_style cursor" :class="[arrange_style.created_at]" @click="arrange_data('created_at',arrange_title.created_at)">建立日期</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    
-                    <tbody>
-                        <tr v-for="(data,index) in theme_perpage_data">
-                            <td>
-                                <input type="checkbox" name="article_checkbox[]" v-model="theme_delete_array" :value="data.unqid">
-                            </td>
-                            <td>
-                                @{{ index+1 }}
-                            </td>
-                            <td>
-                                @{{ data.themename }}
-                            </td>
-                            <td>
-                                @{{ data.foundername }}
-                            </td>
-                            <td>
-                                @{{ data.created_at }}
-                            </td>
-                            <td class="center">
-                                <div class="cursor" @click="change_name(data.themename,data.unqid)" style="padding-right:1em;">
-                                    <img class="article_edit_icon" data-toggle="modal" data-target="#edit_theme_modal" src="../resources/assets/image/icon/edit.png" title="編輯主題名稱">
-                                </div>
-                                <div class="cursor">
-                                    <form action="{{ route('edit_theme_cls.edit') }}" method="post">
-                                    {{ csrf_field() }}
-                                        <input type="text" class="none" name="themesname" :value="data.themename">
-                                        <input type="text" class="none" name="themesunqid" :value="data.unqid">
-                                        <!-- <input type="submit" value="submit" onclick="this.form.submit();"> -->
-                                    <img class="article_edit_icon" src="../resources/assets/image/icon/chevron-sign-to-right.png" title="編輯分類">
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                    </tbody>
-                </table>
-
+                <!-- 所有主題資料 -->
+                <div class="theme_container">
+                    <div v-for="(data,index) in theme_perpage_data" class="theme_square">
+                        <div class="theme_square_fnc">
+                            <div class="cursor" @click="change_name(data.themename,data.unqid)" style="padding-right:1em;">
+                                <img class="article_edit_icon" data-toggle="modal" data-target="#edit_theme_modal" src="../resources/assets/image/icon/edit.png" title="編輯主題名稱">
+                            </div>
+                            <div class="cursor">
+                                <form action="{{ route('edit_theme_cls.edit') }}" method="post">
+                                {{ csrf_field() }}
+                                    <input type="text" class="none" name="themesname" :value="data.themename">
+                                    <input type="text" class="none" name="themesunqid" :value="data.unqid">
+                                    <!-- <input type="submit" value="submit" onclick="this.form.submit();"> -->
+                                <img class="article_edit_icon" src="../resources/assets/image/icon/chevron-sign-to-right.png" title="編輯分類">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="theme_square_name">
+                            @{{ data.themename }}
+                        </div>
+                        <div class="theme_square_date">
+                            @{{ data.created_at }}
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="pagination_container">
                     <div class="data_num">
                         顯示第 @{{ page_star }}~@{{ page_end }} ( 共@{{data_length}}筆 )

@@ -49,7 +49,7 @@ var theme_group = new Vue({
         theme_name: "",
         theme_unqid: "",
 
-        perpage: 5, //每頁要顯示幾筆資料
+        perpage: 15, //每頁要顯示幾筆資料
         current_page: 1, //現在在第幾頁
         pages: "", //總共有幾頁
         data_length: [], //總共有幾筆資料
